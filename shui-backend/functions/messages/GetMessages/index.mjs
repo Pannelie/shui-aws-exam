@@ -2,6 +2,8 @@ import middy from "@middy/core";
 import { getMessages } from "../../../services/messages.mjs";
 import { formatMessageResponse } from "../../../responses/index.mjs";
 import { sendResponse } from "../../../responses/index.mjs";
+import { errorHandler } from "../../../middlewares/errorHandler.mjs";
+
 export const handler = middy(async (event) => {
   const messages = await getMessages();
 
@@ -17,4 +19,4 @@ export const handler = middy(async (event) => {
     message: `These are the avaiable messages`,
     messages: messages.map(formatMessageResponse),
   });
-});
+}).use(errorHandler());
