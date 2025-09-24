@@ -4,8 +4,8 @@ import "./homePage.css";
 export const HomePage = () => {
   return (
     <section className="home-page">
-      HomePage
       <NavBar />
+      HomePage
     </section>
   );
 };
