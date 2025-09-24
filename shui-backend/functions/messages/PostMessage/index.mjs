@@ -2,6 +2,8 @@ import middy from "@middy/core";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
 import { addMessage } from "../../../services/messages.mjs";
 import { formatMessageResponse, sendResponse } from "../../../responses/index.mjs";
+import { validateMessage } from "../../../middlewares/validateMessage.mjs";
+import { errorHandler } from "../../../middlewares/errorHandler.mjs";
 
 export const handler = middy(async (event) => {
   const message = await addMessage(event.body);
@@ -12,6 +14,9 @@ export const handler = middy(async (event) => {
   return sendResponse(201, {
     success: true,
     message: `Successfully posted message`,
-    note: formatMessageResponse(message),
+    messages: formatMessageResponse(message),
   });
-}).use(httpJsonBodyParser());
+})
+  .use(httpJsonBodyParser())
+  .use(validateMessage())
+  .use(errorHandler());
