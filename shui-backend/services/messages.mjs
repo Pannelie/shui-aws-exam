@@ -1,6 +1,24 @@
 import { generateId } from "../utils/generateId.mjs";
 import { docClient } from "./client.mjs";
-import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+
+export const getMessages = async () => {
+  const command = new QueryCommand({
+    TableName: "shui-table",
+    KeyConditionExpression: "PK = :pk",
+    ExpressionAttributeValues: {
+      ":pk": "MESSAGE",
+    },
+    ScanIndexForward: true,
+  });
+  try {
+    const result = await docClient.send(command);
+    return result.Items || [];
+  } catch (error) {
+    console.error(`${error.message} from getMessages`);
+    throw new Error("Could not fetch messages");
+  }
+};
 
 export const addMessage = async ({ username, text }) => {
   const messageId = generateId();
