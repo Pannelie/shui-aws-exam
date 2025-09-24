@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "nodemon",
-    "frontend": "npm run dev --prefix frontend",
+    "frontend": "npm run dev --prefix ../shui-frontend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
