@@ -1,4 +1,4 @@
-import { formatDateForResponse } from "./date.mjs";
+import { formatDateForResponse } from "../utils/date.mjs";
 
 export const sendResponse = (code, data) => {
   return {
