@@ -1,7 +1,7 @@
 import { generateId } from "../utils/generateId.mjs";
 import { docClient } from "./client.mjs";
 import { throwError } from "../responses/throwError.mjs";
-import { GetCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { DeleteCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
 export const getMessages = async () => {
   const command = new QueryCommand({
@@ -96,5 +96,47 @@ export const updateMessage = async (messageId, updateData) => {
     console.error("Error updating message:", error);
     if (error.statusCode) throw error;
     throwError("Could not update message", 500);
+  }
+};
+
+export const deleteMessage = async (messageId) => {
+  try {
+    const command = new QueryCommand({
+      TableName: "shui-table",
+      IndexName: "GSI2",
+      KeyConditionExpression: "GSI2PK = :pk",
+      ExpressionAttributeValues: {
+        ":pk": `MESSAGE#${messageId}`,
+      },
+      Limit: 1,
+    });
+
+    const result = await docClient.send(command);
+    const message = result.Items?.[0];
+
+    if (!message) {
+      throwError("Message not found", 404);
+    }
+
+    const deleteCommand = new DeleteCommand({
+      TableName: "shui-table",
+      Key: {
+        PK: message.PK,
+        SK: message.SK,
+      },
+      ReturnValues: "ALL_OLD",
+    });
+    const deleteResult = await docClient.send(deleteCommand);
+
+    return {
+      success: true,
+      deletedMessage: deleteResult.Attributes,
+    };
+  } catch (error) {
+    console.error(`Error deleting message with id ${messageId}:`, error.message);
+    return {
+      success: false,
+      message: `Error deleting message: ${error.message}`,
+    };
   }
 };
