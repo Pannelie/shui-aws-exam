@@ -18,6 +18,30 @@ functions:
       - httpApi:
           path: /api/messages
           method: GET
+  GetMessageById:
+    handler: functions/messages/GetMessageById/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/{id}
+          method: GET
+  PostMessage:
+    handler: functions/messages/PostMessage/index.handler
+    events:
+      - httpApi:
+          path: /api/messages
+          method: POST
+  UpdateMessageById:
+    handler: functions/messages/UpdateMessageById/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/{id}
+          method: PUT
+  DeleteMessageById:
+    handler: functions/messages/DeleteMessageById/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/{id}
+          method: DELETE
 
 resources:
   Resources:
