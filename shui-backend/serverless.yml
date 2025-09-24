@@ -18,11 +18,11 @@ functions:
       - httpApi:
           path: /api/messages
           method: GET
-  GetMessageById:
-    handler: functions/messages/GetMessageById/index.handler
+  GetMessagesByUser:
+    handler: functions/messages/GetMessagesByUser/index.handler
     events:
       - httpApi:
-          path: /api/messages/{id}
+          path: /api/messages/{username}
           method: GET
   PostMessage:
     handler: functions/messages/PostMessage/index.handler
