@@ -1,7 +1,10 @@
 import Joi from "joi";
+import { generateShortId } from "../utils/generateShortId.mjs";
 
 export const messageSchema = Joi.object({
-  id: Joi.string().min(4).required(),
+  id: Joi.string()
+    .forbidden()
+    .default(() => generateShortId(), "auto-generated UUID"),
   username: Joi.string().min(3).required(),
   text: Joi.string().min(2).required(),
   createdAt: Joi.string()
