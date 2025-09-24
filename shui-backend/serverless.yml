@@ -1,4 +1,4 @@
-org: ${file(.config.yml):aws:org}
+org: ${file(./config.yml):aws.org}
 service: shui-backend
 
 provider:
@@ -12,12 +12,12 @@ plugins:
   - serverless-offline
 
 functions:
-  hello:
-    handler: handler.hello
+  GetMessages:
+    handler: functions/messages/GetMessages/index.handler
     events:
       - httpApi:
-          path: /
-          method: get
+          path: /api/messages
+          method: GET
 
 resources:
   Resources:
