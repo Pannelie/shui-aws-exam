@@ -1,6 +1,7 @@
 import { generateId } from "../utils/generateId.mjs";
 import { docClient } from "./client.mjs";
-import { PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { throwError } from "../responses/throwError.mjs";
+import { GetCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
 export const getMessages = async () => {
   const command = new QueryCommand({
@@ -31,6 +32,13 @@ export const addMessage = async ({ username, text }) => {
     username,
     text,
     createdAt,
+    // För GSI1: hämta alla meddelanden från användare
+    GSI1PK: `USER#${username}`,
+    GSI1SK: `CREATED_AT#${createdAt}`,
+
+    // För GSI2: hämta ett specifikt meddelande via ID
+    GSI2PK: `MESSAGE#${messageId}`,
+    GSI2SK: "MESSAGE",
   };
 
   const command = new PutCommand({
@@ -44,5 +52,49 @@ export const addMessage = async ({ username, text }) => {
   } catch (error) {
     console.error(`Error från db:`, error);
     return { success: false, message: `Error saving booking: ${error.message}` };
+  }
+};
+
+export const updateMessage = async (messageId, updateData) => {
+  try {
+    const command = new QueryCommand({
+      TableName: "shui-table",
+      IndexName: "GSI2",
+      KeyConditionExpression: "GSI2PK = :pk",
+      ExpressionAttributeValues: {
+        ":pk": `MESSAGE#${messageId}`,
+      },
+      Limit: 1,
+    });
+
+    const result = await docClient.send(command);
+    const message = result.Items?.[0];
+    if (!message) {
+      throwError("Message not found", 404);
+    }
+
+    const updateCommand = new UpdateCommand({
+      TableName: "shui-table",
+      Key: {
+        PK: message.PK,
+        SK: message.SK,
+      },
+      UpdateExpression: "SET #text = :newText",
+      ExpressionAttributeNames: {
+        "#text": "text",
+      },
+      ExpressionAttributeValues: {
+        ":newText": updateData.text,
+      },
+      ReturnValues: "ALL_NEW",
+    });
+
+    const updateResult = await docClient.send(updateCommand);
+
+    return { success: true, updatedMessage: updateResult.Attributes };
+  } catch (error) {
+    console.error("Error updating message:", error);
+    if (error.statusCode) throw error;
+    throwError("Could not update message", 500);
   }
 };
