@@ -3,7 +3,7 @@ import "./homePage.css";
 
 export const HomePage = () => {
   return (
-    <section className="home-page">
+    <section className="page home-page">
       <NavBar />
       HomePage
     </section>
