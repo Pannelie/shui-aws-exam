@@ -1,0 +1,3 @@
+aws:
+  org: annelies
+  role: arn:aws:iam::719084987070:role/BasicLambdaRole
