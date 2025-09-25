@@ -4,19 +4,27 @@ import { addMessage } from "../../../services/messages.mjs";
 import { formatMessageResponse, sendResponse } from "../../../responses/index.mjs";
 import { validateMessage } from "../../../middlewares/validateMessage.mjs";
 import { errorHandler } from "../../../middlewares/errorHandler.mjs";
+import { throwError } from "../../../responses/throwError.mjs";
+import { authenticateUser } from "../../../middlewares/authenticateUser.mjs";
+import { authorizeRole } from "../../../middlewares/authorizeRole.mjs";
 
 export const handler = middy(async (event) => {
-  const message = await addMessage(event.body);
+  const message = await addMessage({
+    text: event.body.text,
+    username: event.user.username,
+  });
+
   if (!message.success) {
-    console.error(`Could not create message`);
-    return sendResponse(400, { success: false, message: `Could not create message` });
+    throwError("Could not create message", 400);
   }
   return sendResponse(201, {
     success: true,
     message: `Successfully posted message`,
-    messages: formatMessageResponse(message),
+    messageData: formatMessageResponse(message),
   });
 })
   .use(httpJsonBodyParser())
+  .use(authenticateUser())
+  .use(authorizeRole(["USER"]))
   .use(validateMessage())
   .use(errorHandler());
