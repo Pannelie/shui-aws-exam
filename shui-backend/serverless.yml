@@ -12,6 +12,20 @@ plugins:
   - serverless-offline
 
 functions:
+  # --------------------AUTH-----------------------
+  RegisterUser:
+    handler: functions/auth/RegisterUser/index.handler
+    events:
+      - httpApi:
+          path: /api/auth/register
+          method: POST
+  LoginUser:
+    handler: functions/auth/LoginUser/index.handler
+    events:
+      - httpApi:
+          path: /api/auth/login
+          method: POST
+  # ------------------MESSAGES---------------------
   GetMessages:
     handler: functions/messages/GetMessages/index.handler
     events:
@@ -83,4 +97,5 @@ resources:
                 KeyType: HASH
               - AttributeName: GSI2SK
                 KeyType: RANGE
-            Projection: ALL
+            Projection:
+              ProjectionType: ALL
