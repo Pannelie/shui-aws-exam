@@ -17,7 +17,7 @@ export const getMessages = async () => {
     return result.Items || [];
   } catch (error) {
     console.error(`${error.message} from getMessages`);
-    throw new Error("Could not fetch messages");
+    throwError("Could not fetch messages", 500);
   }
 };
 
@@ -39,6 +39,22 @@ export const getMessagesByUser = async (username) => {
     console.error(`Error fetching messages for user ${username}:`, error.message);
     throwError("Could not fetch messages for user", 500);
   }
+};
+
+export const getMessageById = async (messageId) => {
+  const command = new QueryCommand({
+    TableName: "shui-table",
+    IndexName: "GSI2",
+    KeyConditionExpression: "GSI2PK = :pk",
+    ExpressionAttributeValues: {
+      ":pk": `MESSAGE#${messageId}`,
+    },
+    Limit: 1,
+  });
+  const result = await docClient.send(command);
+  const message = result.Items?.[0];
+  if (!message) throwError("Message not found", 404);
+  return message;
 };
 
 export const addMessage = async ({ username, text }) => {
@@ -71,7 +87,7 @@ export const addMessage = async ({ username, text }) => {
     return { success: true, ...item };
   } catch (error) {
     console.error(`Error från db:`, error);
-    return { success: false, message: `Error saving booking: ${error.message}` };
+    throwError("Could not save message", 500);
   }
 };
 
@@ -89,9 +105,7 @@ export const updateMessage = async (messageId, updateData) => {
 
     const result = await docClient.send(command);
     const message = result.Items?.[0];
-    if (!message) {
-      throwError("Message not found", 404);
-    }
+    if (!message) throwError("Message not found", 404);
 
     const updateCommand = new UpdateCommand({
       TableName: "shui-table",
@@ -134,9 +148,7 @@ export const deleteMessage = async (messageId) => {
     const result = await docClient.send(command);
     const message = result.Items?.[0];
 
-    if (!message) {
-      throwError("Message not found", 404);
-    }
+    if (!message) throwError("Message not found", 404);
 
     const deleteCommand = new DeleteCommand({
       TableName: "shui-table",
@@ -154,9 +166,6 @@ export const deleteMessage = async (messageId) => {
     };
   } catch (error) {
     console.error(`Error deleting message with id ${messageId}:`, error.message);
-    return {
-      success: false,
-      message: `Error deleting message: ${error.message}`,
-    };
+    throwError(`Could not delete message with id ${messageId}`, 500);
   }
 };
