@@ -7,7 +7,7 @@ export const userSchema = Joi.object({
     .min(4)
     .pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/)
     .messages({
-      "string.pattern.base": "Lösenordet måste innehålla minst en stor bokstav, en liten bokstav och en siffra.",
+      "string.pattern.base": "Password must contain at least one uppercase letter, one lowercase letter and one number.",
     })
     .required(),
   email: Joi.string().email().required(),
