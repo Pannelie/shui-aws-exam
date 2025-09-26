@@ -1,18 +1,32 @@
 .message {
-  width: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-family: "Quicksand", sans-serif;
+  width: 110px;
+  aspect-ratio: 1;
   min-height: 100px;
   padding: 10px;
   border: 2px solid #e2d761;
+  background-color: #e2d761;
   border-radius: 8px;
   box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
   position: relative;
+  transform: rotate(var(--rotation));
   transition: transform 0.3s;
 }
 
 .message:hover {
-  transform: scale(1.05);
+  transform: rotate(var(--hover-rotation));
 }
-.message_text {
+.message__text {
+  font-size: 0.9rem;
+}
+.message--form-error {
+  position: absolute;
+  right: -20px;
+  top: -7rem;
 }
 
 .pin {
