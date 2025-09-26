@@ -1,3 +1,8 @@
 .button {
-  background-color: blanchedalmond;
+  background-color: var(--pin-color);
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  font-family: "Quicksand", sans-serif;
 }
