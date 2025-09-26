@@ -27,13 +27,7 @@ functions:
       - httpApi:
           path: /api/auth/login
           method: POST
-  LogoutUser:
-    handler: functions/auth/LogoutUser/index.handler
-    events:
-      - httpApi:
-          path: /api/auth/logout
-          method: POST
-  # ------------------MESSAGES---------------------
+    # ------------------MESSAGES---------------------
   GetMessages:
     handler: functions/messages/GetMessages/index.handler
     events:
