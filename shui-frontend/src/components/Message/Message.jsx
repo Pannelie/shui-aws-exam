@@ -1,7 +1,7 @@
 import "./message.css"; // CSS för lappar och pins
 
-export const Message = ({ text }) => {
-  const rotation = Math.random() * 10 - 5;
+export const Message = ({ text, className = "" }) => {
+  const rotation = Math.random() * 15 - 5;
   const pinRotation = Math.random() * 20 - 10;
   //  const pinColor = ["#ff4d4d", "#e60000", "#ff1a1a"];
   //lägga till olika färger?
@@ -9,9 +9,10 @@ export const Message = ({ text }) => {
 
   return (
     <div
-      className="message"
+      className={`message ${className}`}
       style={{
-        transform: `rotate(${rotation}deg)`,
+        "--rotation": `${rotation}deg`,
+        "--hover-rotation": `${rotation + 2}deg`,
       }}
     >
       <svg
