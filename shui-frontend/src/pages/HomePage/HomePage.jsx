@@ -4,6 +4,7 @@ import { Button } from "../../components/Button/Button";
 import { BottomImage } from "../../components/BottomImage/BottomImage";
 import { useUserStore } from "../../stores/useUserStore";
 import "./homePage.css";
+import { Logo } from "../../components/logo/Logo";
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -23,16 +24,19 @@ export const HomePage = () => {
   //Om man är inloggad hamnar man inte på startsidan utan ser alla sina meddelenaden direkt
 
   return (
-    <section className="page">
-      <section className="home">
+    <>
+      <section className="page home-page">
+        <Logo />
         <h1 className="home__title">Välkommen till Shui!</h1>
-        <p className="home__text">Logga in eller registrera dig för att se meddelanden.</p>
         <section className="home__button-section">
+          {/* <section className="home__button-section"> */}
           <Button className="button home__button" onClick={() => navigate("/login")} text="Logga in" />
           <Button className="button home__button" onClick={() => navigate("/register")} text="Registrera" />
-        </section>
+          {/* </section> */}
+        </section>{" "}
+        <p className="home__text">Logga in eller registrera dig för att se meddelanden.</p>
       </section>
       <BottomImage />
-    </section>
+    </>
   );
 };
