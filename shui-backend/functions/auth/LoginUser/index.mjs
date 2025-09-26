@@ -10,14 +10,11 @@ import { comparePasswords } from "../../../utils/bcrypt.mjs";
 
 export const handler = middy(async (event) => {
   const response = await getUser(event.body.username);
-  if (!response) {
-    throwError("User not found", 404);
-  }
+  if (!response) throwError("User not found", 404);
 
   const passwordValid = await comparePasswords(event.body.password, response.password);
-  if (!passwordValid) {
-    throwError("Wrong password", 401);
-  }
+  if (!passwordValid) throwError("Wrong password", 401);
+
   const token = generateToken({ username: response.username, role: response.role });
 
   return sendResponse(200, {
