@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
 import { Button } from "../../components/Button/Button";
+import { Logo } from "../../components/logo/Logo";
+import { BottomImage } from "../../components/BottomImage/BottomImage";
+import "./loginPage.css";
 
 export const LoginPage = () => {
   const location = useLocation();
@@ -24,10 +27,16 @@ export const LoginPage = () => {
 
   return (
     <>
-      {successMsg && <div className="message success">{successMsg}</div>}
-      <LoginForm />
-      <p>Inget konto?</p>
-      <Button className="button" onClick={() => navigate("/register")} text="Klicka här för att registrera dig" />
+      <section className="page login-page">
+        <Logo />
+        {successMsg && <div className="message success">{successMsg}</div>}
+        <LoginForm />
+        <section className="login__button-section">
+          <Button className="button" onClick={() => navigate("/")} text="Tillbaka" />
+          <Button className="button" onClick={() => navigate("/register")} text="Skapa användare" />
+        </section>
+      </section>
+      <BottomImage />
     </>
   );
 };
