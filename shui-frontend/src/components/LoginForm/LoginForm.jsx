@@ -3,6 +3,7 @@ import { Button } from "../Button/Button";
 import { useRef, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
+import { Message } from "../Message/Message";
 import "./loginForm.css";
 
 // useRef är som en låda där du kan spara något mellan renderingar utan att React bryr sig om det.
@@ -52,16 +53,15 @@ export const LoginForm = () => {
 
   return (
     <form className="form">
-      <h1>Logga in</h1>
-      {error && <p className="form__error">{error}</p>}
+      <h1 className="form__title">Logga in</h1>
       <label className="form__label">
-        Användarnamn: <input className="form__input" type="text" ref={usernameRef} />
+        <input className="form__input" type="text" ref={usernameRef} placeholder="Användarnamn" />
       </label>
       <label className="form__label">
-        Lösenord:
-        <input className="form__input" type="password" ref={passwordRef} />
+        <input className="form__input" type="password" ref={passwordRef} placeholder="Lösenord" />
       </label>
       <Button className="form__button" onClick={loginUser} text={"Logga in"} />
+      {error && <Message text={error} className="message--form-error" />}
     </form>
   );
 };
