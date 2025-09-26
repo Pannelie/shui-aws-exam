@@ -1,0 +1,24 @@
+import "./logoutButton.css";
+import { useUserStore } from "../../stores/useUserStore";
+import { useNavigate } from "react-router-dom";
+
+export const LogoutButton = () => {
+  const { setUser } = useUserStore();
+  const navigate = useNavigate();
+  const onClick = () => {
+    // Ta bort token och role från localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+
+    // Nollställ användaren i store
+    setUser(null);
+
+    // Navigera till startsidan
+    navigate("/", { replace: true });
+  };
+  return (
+    <button onClick={onClick} className="logout-button">
+      Logga ut
+    </button>
+  );
+};

@@ -4,6 +4,14 @@
   margin: 0;
 }
 
+:root {
+  --pin-color: #d53838;
+  --main-bg-color: #19274a;
+}
+body {
+  background-color: var(--main-bg-color);
+}
 .page {
   height: 100vh;
+  position: relative;
 }

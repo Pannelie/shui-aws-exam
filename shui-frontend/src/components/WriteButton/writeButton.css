@@ -1,0 +1,7 @@
+.write-button {
+  background-color: red;
+  aspect-ratio: 1;
+  width: 1.5rem;
+}
+.write-button__icon {
+}

@@ -1,0 +1,26 @@
+.message {
+  width: 120px;
+  min-height: 100px;
+  padding: 10px;
+  border: 2px solid #e2d761;
+  border-radius: 8px;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.message:hover {
+  transform: scale(1.05);
+}
+.message_text {
+}
+
+.pin {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.5));
+  fill: var(--pin-color);
+}
