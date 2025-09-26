@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -7,11 +9,18 @@
 :root {
   --pin-color: #d53838;
   --main-bg-color: #19274a;
+  --error-color: #00b2ff;
+  --light-font-color: #fff;
+  --dark-font-color: #000;
 }
 body {
   background-color: var(--main-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .page {
   height: 100vh;
+  width: 80vw;
   position: relative;
 }
