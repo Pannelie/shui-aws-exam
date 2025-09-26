@@ -19,7 +19,7 @@ export const handler = middy(async (event) => {
 
   return sendResponse(200, {
     success: true,
-    message: count === 0 ? "No messages to show" : `${formatCountMessage(count, "message")} by ${username}`,
+    message: count === 0 ? `No messages to show by ${username}` : `${formatCountMessage(count, "message")} by ${username}`,
     messages: count > 0 ? messages.map(formatMessageResponse) : [],
   });
 })
