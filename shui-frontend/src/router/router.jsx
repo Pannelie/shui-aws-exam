@@ -21,4 +21,8 @@ export const router = createBrowserRouter([
     path: "/messages",
     element: <MessagesPage />,
   },
+  {
+    path: "/messages/:type",
+    element: <MessagesPage />,
+  },
 ]);

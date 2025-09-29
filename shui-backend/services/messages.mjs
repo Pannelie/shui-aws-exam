@@ -22,24 +22,46 @@ export const getMessages = async () => {
 };
 
 export const getMessagesByUser = async (username) => {
-  try {
-    const command = new QueryCommand({
-      TableName: "shui-table",
-      IndexName: "GSI1",
-      KeyConditionExpression: "GSI1PK= :username",
-      ExpressionAttributeValues: {
-        ":username": `USER#${username}`,
-      },
-      ScanIndexForward: true, // true innebär äldsta först
-    });
+  console.log("Querying messages for username:", username);
+  const command = new QueryCommand({
+    TableName: "shui-table",
+    IndexName: "GSI1",
+    KeyConditionExpression: "GSI1PK = :username",
+    ExpressionAttributeValues: {
+      ":username": `USER#${username}`,
+    },
+    ScanIndexForward: true,
+  });
 
+  try {
     const result = await docClient.send(command);
+    console.log("DynamoDB result:", result.Items);
     return result.Items || [];
   } catch (error) {
     console.error(`Error fetching messages for user ${username}:`, error.message);
     throwError("Could not fetch messages for user", 500);
   }
 };
+
+// export const getMessagesByUser = async (username) => {
+//   try {
+//     const command = new QueryCommand({
+//       TableName: "shui-table",
+//       IndexName: "GSI1",
+//       KeyConditionExpression: "GSI1PK= :username",
+//       ExpressionAttributeValues: {
+//         ":username": `USER#${username}`,
+//       },
+//       ScanIndexForward: true, // true innebär äldsta först
+//     });
+
+//     const result = await docClient.send(command);
+//     return result.Items || [];
+//   } catch (error) {
+//     console.error(`Error fetching messages for user ${username}:`, error.message);
+//     throwError("Could not fetch messages for user", 500);
+//   }
+// };
 
 export const getMessageById = async (messageId) => {
   const command = new QueryCommand({

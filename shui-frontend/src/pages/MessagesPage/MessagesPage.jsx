@@ -3,19 +3,22 @@ import { NavBar } from "../../components/NavBar/NavBar";
 import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import { MessageList } from "../../components/MessageList/MessageList";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
 import { getMessagesApi } from "../../api/messages";
+import { MessageSwitch } from "../../components/MessageSwitch/MessageSwitch";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
   const navigate = useNavigate();
-
-  const token = user?.token || localStorage.getItem("token");
+  const { type } = useParams();
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [view, setView] = useState(type); //mine eller all
+
+  const token = user?.token || localStorage.getItem("token");
 
   useEffect(() => {
     if (!token) {
@@ -23,44 +26,57 @@ export const MessagesPage = () => {
     }
   }, [token, navigate]);
 
+  // Om URL saknar type, sätt default till "all"
   useEffect(() => {
+    if (!type) {
+      navigate("/messages/all", { replace: true });
+    }
+  }, [type, navigate]);
+
+  // Hämta meddelanden baserat på URL-param
+  useEffect(() => {
+    if (!type || !token) return;
+
     const fetchMessages = async () => {
-      if (!token) return;
-
       setLoading(true);
+      setError("");
       try {
-        // Hämta meddelanden från API
-        const result = await getMessagesApi(token);
-
-        if (!result.success && result.message === "Invalid token") {
-          setUser(null);
-          localStorage.removeItem("token");
-          localStorage.removeItem("role");
-          navigate("/login", { replace: true });
-          return; // Sluta fortsätta med meddelanden
-        }
-
-        if (result.success) {
-          setMessages(result.data.messages);
-          setError("");
-        } else {
+        const result = await getMessagesApi(token, type);
+        console.log(result);
+        if (!result.success) {
+          if (result.message === "Invalid token") {
+            setUser(null);
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            navigate("/login", { replace: true });
+            return; // Sluta fortsätta med meddelanden
+          }
           setError(result.message);
+          setMessages([]);
+        } else {
+          setMessages(result.data.messages || []);
         }
       } catch (error) {
         setError("Något gick fel vid hämtning av meddelanden");
+        setMessages([]);
       }
       setLoading(false);
     };
-    fetchMessages();
-  }, [token, navigate, setUser]);
 
-  if (loading) return <p>Laddar meddelanden...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+    fetchMessages();
+  }, [type, token, navigate, setUser]);
+
+  const handleViewChange = (newView) => {
+    navigate(`/messages/${newView}`);
+  };
 
   return (
     <section className="page messages-page">
-      <NavBar />
-      <MessageList messages={messages} />
+      {/* <NavBar /> */}
+      <MessageSwitch view={type || "all"} setView={handleViewChange} />
+      {loading && <p>Laddar meddelanden...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {!loading && !error && <MessageList messages={messages} />}
       <LogoutButton />
     </section>
   );

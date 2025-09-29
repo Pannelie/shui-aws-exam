@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const baseURL = "https://t0woxk6mb6.execute-api.eu-north-1.amazonaws.com";
+
 export const loginApi = async (data) => {
   return await axios
-    .post("https://7yopm55nba.execute-api.eu-north-1.amazonaws.com/api/auth/login", data)
+    .post(`${baseURL}/api/auth/login`, data)
     .then((response) => {
       return { success: true, data: response.data };
     })
@@ -16,7 +18,7 @@ export const loginApi = async (data) => {
 
 export const registerApi = async (data) => {
   return await axios
-    .post("https://7yopm55nba.execute-api.eu-north-1.amazonaws.com/api/auth/register", data)
+    .post(`${baseURL}/api/auth/register`, data)
     .then((response) => {
       return { success: true, data: response.data };
     })

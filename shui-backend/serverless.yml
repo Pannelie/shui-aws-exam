@@ -34,12 +34,6 @@ functions:
       - httpApi:
           path: /api/messages/{type} #ALL or MINE
           method: GET
-  # GetMessagesByUser:
-  #   handler: functions/messages/GetMessagesByUser/index.handler
-  #   events:
-  #     - httpApi:
-  #         path: /api/messages/{username}
-  #         method: GET
   PostMessage:
     handler: functions/messages/PostMessage/index.handler
     events:
