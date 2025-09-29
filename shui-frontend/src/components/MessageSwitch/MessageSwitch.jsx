@@ -1,5 +1,5 @@
 import "./messageSwitch.css";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import pageFlipSound from "../../assets/sounds/page-flip-sound.mp3";
@@ -7,13 +7,26 @@ import pageFlipSound from "../../assets/sounds/page-flip-sound.mp3";
 
 export const MessageSwitch = ({ view, setView }) => {
   const [switching, setSwitching] = useState(false);
-  const audio = new Audio(pageFlipSound);
+  const audioRef = useRef(null);
+
+  //förladdar ljudet direkt sidan mountas
+  useEffect(() => {
+    const audio = new Audio(pageFlipSound);
+    audio.preload = "auto";
+    audioRef.current = audio;
+  }, []);
 
   const handleClick = (newView) => {
     if (newView === view) return;
 
-    audio.currentTime = 0; // starta om ljudet
-    audio.play();
+    // Spela upp ljud direkt från ref
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch((error) => {
+        // Vissa webbläsare kräver interaktion, så hantera eventuella fel tyst
+        console.warn("Ljudet kunde inte spelas:", error);
+      });
+    }
 
     setSwitching(true);
     setView(newView);
