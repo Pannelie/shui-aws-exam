@@ -32,14 +32,14 @@ functions:
     handler: functions/messages/GetMessages/index.handler
     events:
       - httpApi:
-          path: /api/messages
+          path: /api/messages/{type}
           method: GET
-  GetMessagesByUser:
-    handler: functions/messages/GetMessagesByUser/index.handler
-    events:
-      - httpApi:
-          path: /api/messages/{username}
-          method: GET
+  # GetMessagesByUser:
+  #   handler: functions/messages/GetMessagesByUser/index.handler
+  #   events:
+  #     - httpApi:
+  #         path: /api/messages/{username}
+  #         method: GET
   PostMessage:
     handler: functions/messages/PostMessage/index.handler
     events:
