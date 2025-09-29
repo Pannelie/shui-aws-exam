@@ -36,6 +36,7 @@ export const LoginForm = () => {
     });
     if (result.success) {
       const { token, role } = result.data;
+      console.log(`token: ${token}`);
       setUser({ token, role: role.toUpperCase() });
 
       localStorage.setItem("token", token);
@@ -44,7 +45,6 @@ export const LoginForm = () => {
       navigate("/messages", {
         state: { message: "Du är nu inloggad" },
       });
-      console.log(`token: ${token}`);
     } else {
       console.log(result.message);
       setError(result.message);

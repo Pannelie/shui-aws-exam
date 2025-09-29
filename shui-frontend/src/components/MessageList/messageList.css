@@ -1,3 +1,10 @@
+.message__no-messages {
+  text-align: center;
+  margin-top: 2rem;
+  font-style: italic;
+  color: var(--error-color);
+}
+
 .message__list {
   display: flex;
   flex-direction: row;

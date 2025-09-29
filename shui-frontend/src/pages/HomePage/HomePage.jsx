@@ -8,19 +8,17 @@ import { Logo } from "../../components/logo/Logo";
 
 export const HomePage = () => {
   const navigate = useNavigate();
-
   const { user } = useUserStore();
 
+  const token = user?.token || localStorage.getItem("token");
+  const storedRole = user?.role || localStorage.getItem("role");
+
   useEffect(() => {
-    if (user?.role === "USER") {
-      navigate("/messages", { replace: true });
-      return;
-    }
-    const storedRole = localStorage.getItem("role");
-    if (storedRole === "USER") {
+    // Navigera automatiskt till /messages om användaren är inloggad och token finns
+    if (storedRole === "USER" && token) {
       navigate("/messages", { replace: true });
     }
-  }, [user, navigate]);
+  }, [storedRole, token, navigate]);
   //Om man är inloggad hamnar man inte på startsidan utan ser alla sina meddelenaden direkt
 
   return (

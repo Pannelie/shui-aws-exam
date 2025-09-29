@@ -11,17 +11,22 @@ export const LoginPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [successMsg, setSuccessMsg] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     if (location.state?.message) {
       setSuccessMsg(location.state.message);
+      setShowForm(false);
 
       // Rensa meddelandet efter 3 sekunder (frivilligt)
       const timer = setTimeout(() => {
         setSuccessMsg("");
+        setShowForm(true);
       }, 3000);
 
       return () => clearTimeout(timer);
+    } else {
+      setShowForm(true); // visa direkt om inget meddelande finns
     }
   }, [location]);
 
@@ -30,11 +35,15 @@ export const LoginPage = () => {
       <section className="page login-page">
         <Logo />
         {successMsg && <div className="message success">{successMsg}</div>}
-        <LoginForm />
-        <section className="login__button-section">
-          <Button className="button" onClick={() => navigate("/")} text="Tillbaka" />
-          <Button className="button" onClick={() => navigate("/register")} text="Skapa användare" />
-        </section>
+        {showForm && (
+          <>
+            <LoginForm />
+            <section className="login__button-section">
+              <Button className="button" onClick={() => navigate("/")} text="Tillbaka" />
+              <Button className="button" onClick={() => navigate("/register")} text="Skapa användare" />
+            </section>
+          </>
+        )}
       </section>
       <BottomImage />
     </>

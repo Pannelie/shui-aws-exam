@@ -2,6 +2,7 @@ import { registerApi } from "../../api/auth";
 import { Button } from "../Button/Button";
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Message } from "../Message/Message";
 import "./registerForm.css";
 
 // useRef är som en låda där du kan spara något mellan renderingar utan att React bryr sig om det.
@@ -49,19 +50,18 @@ export const RegisterForm = () => {
   };
   return (
     <form className="form">
-      <h1>Registrera användare</h1>
+      <h1 className="form__title">Skapa användare</h1>
       <label className="form__label">
-        Användarnamn: <input className="form__input" type="text" ref={usernameRef} />
+        <input className="form__input" type="text" ref={usernameRef} placeholder="Användarnamn" />
       </label>
       <label className="form__label">
-        Email:
-        <input className="form__input" type="email" ref={emailRef} />
+        <input className="form__input" type="email" ref={emailRef} placeholder="Email" />
       </label>
       <label className="form__label">
-        Lösenord:
-        <input className="form__input" type="password" ref={passwordRef} />
+        <input className="form__input" type="password" ref={passwordRef} placeholder="Lösenord" />
       </label>
       <Button className="form__button" onClick={registerUser} text={"Registrera"} />
+      {error && <Message text={error} className="message--form-error" />}
     </form>
   );
 };

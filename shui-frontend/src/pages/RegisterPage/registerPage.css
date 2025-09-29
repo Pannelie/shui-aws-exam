@@ -1,0 +1,14 @@
+.register-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.register__button-section {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+}
