@@ -19,10 +19,11 @@ export const Message = ({ text, className = "" }) => {
         className="pin"
         viewBox="0 0 24 24"
         style={{
-          transform: `translateX(-50%) rotate(${pinRotation}deg)`,
+          transform: `translateX(-50%)`,
         }}
       >
-        <path d="M12 2c0 .55-.45 1-1 1s-1-.45-1-1 1-1 1-1 1 .45 1 1zm-1 2h2v6h-2V4zm0 6h2v2h-2v-2zm0 2h2v8h-2v-8z" />
+        {/* Bara ett cirkulärt huvud */}
+        <circle cx="12" cy="12" r="8" fill="var(--pin-color)" />
       </svg>
       <p className="message__text">{text}</p>
     </div>

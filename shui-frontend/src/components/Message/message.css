@@ -8,8 +8,8 @@
   aspect-ratio: 1;
   min-height: 100px;
   padding: 10px;
-  border: 2px solid #e2d761;
-  background-color: #e2d761;
+  border: 2px solid var(--paper-bg);
+  background-color: var(--paper-bg);
   border-radius: 8px;
   box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
   position: relative;
@@ -28,13 +28,12 @@
   right: -20px;
   top: -7rem;
 }
-
 .pin {
-  width: 16px;
-  height: 16px;
+  width: 30px; /* storlek på cirkeln */
+  height: 30px;
   position: absolute;
-  top: -8px;
+  top: -12px; /* justera så den sitter över meddelandet */
   left: 50%;
-  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.5));
-  fill: var(--pin-color);
+  transform: translateX(-50%);
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.3));
 }
