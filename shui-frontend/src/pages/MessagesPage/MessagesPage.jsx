@@ -1,5 +1,5 @@
 import "./messagesPage.css";
-import { NavBar } from "../../components/NavBar/NavBar";
+import { Logo } from "../../components/logo/Logo";
 import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import { MessageList } from "../../components/MessageList/MessageList";
 import { useEffect, useState } from "react";
@@ -16,7 +16,6 @@ export const MessagesPage = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [view, setView] = useState(type); //mine eller all
 
   const token = user?.token || localStorage.getItem("token");
 
@@ -42,7 +41,7 @@ export const MessagesPage = () => {
       setError("");
       try {
         const result = await getMessagesApi(token, type);
-        console.log(result);
+
         if (!result.success) {
           if (result.message === "Invalid token") {
             setUser(null);
@@ -72,12 +71,12 @@ export const MessagesPage = () => {
 
   return (
     <section className="page messages-page">
-      {/* <NavBar /> */}
+      <Logo />
+      <LogoutButton />
       <MessageSwitch view={type || "all"} setView={handleViewChange} />
       {loading && <p>Laddar meddelanden...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {!loading && !error && <MessageList messages={messages} />}
-      <LogoutButton />
     </section>
   );
 };
