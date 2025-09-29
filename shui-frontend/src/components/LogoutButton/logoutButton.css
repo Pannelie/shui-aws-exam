@@ -1,3 +1,15 @@
 .logout-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
   background-color: var(--pin-color);
+  border: none;
+  aspect-ratio: 1;
+  border-radius: 5px;
+  width: 2rem;
+}
+
+.logout-icon {
+  color: var(--light-font-color);
+  font-size: 1rem;
 }

@@ -1,6 +1,8 @@
 import "./logoutButton.css";
 import { useUserStore } from "../../stores/useUserStore";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 export const LogoutButton = () => {
   const { setUser } = useUserStore();
@@ -18,7 +20,7 @@ export const LogoutButton = () => {
   };
   return (
     <button onClick={onClick} className="logout-button">
-      Logga ut
+      <FontAwesomeIcon icon={faRightFromBracket} className="logout-icon" />
     </button>
   );
 };
