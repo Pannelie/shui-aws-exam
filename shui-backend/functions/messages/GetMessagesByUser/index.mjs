@@ -9,8 +9,13 @@ import { authenticateUser } from "../../../middlewares/authenticateUser.mjs";
 import { authorizeRole } from "../../../middlewares/authorizeRole.mjs";
 
 export const handler = middy(async (event) => {
-  const username = event.pathParameters?.username;
-  //eftersom det är användarnamn så behåller jag case-sensitive
+  const user = event.user;
+  const username = user?.username;
+  //chatGpt svar om säkerhet:
+  //Om du skickar username via pathParameter kan en användare
+  // tekniskt ändra URL och se andras meddelanden → säkerhetsrisk.
+  //Om du istället hämtar username från token (event.user från
+  // authenticateUser) → användaren kan bara hämta sina egna meddelanden.
 
   if (!username) throwError("Missing username in path parameters", 400); //400 = bad request
 
