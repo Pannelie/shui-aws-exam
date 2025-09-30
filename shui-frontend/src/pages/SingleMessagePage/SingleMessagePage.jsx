@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getMessageByIdApi, deleteMessageByIdApi } from "../../api/messages";
 import { useUserStore } from "../../stores/useUserStore";
 import { MessageView } from "../../components/MessageView/MessageView";
-import { Button } from "../../components/Button/Button";
+import { Layout } from "../../components/Layout/Layout";
 
 export const SingleMessagePage = () => {
   const { messageId } = useParams();
@@ -19,8 +19,7 @@ export const SingleMessagePage = () => {
   const [loading, setLoading] = useState(!state?.message);
   const [error, setError] = useState("");
 
-  const isOwner = message?.username === user?.username;
-  const [mode, setMode] = useState(state?.mode || "view");
+  const isOwner = message && user?.username === message.username;
 
   useEffect(() => {
     if (!token) {
@@ -34,8 +33,7 @@ export const SingleMessagePage = () => {
       getMessageByIdApi(messageId, token)
         .then((result) => {
           if (result.success) {
-            setMessage(result.data.message);
-            setMode(result.data.message.username === user?.username ? "edit" : "view");
+            setMessage(result.data);
           } else {
             setError(result.message);
           }
@@ -75,12 +73,12 @@ export const SingleMessagePage = () => {
   };
 
   return (
-    <section className="page single-message-page">
+    <Layout>
       {loading && <p>Laddar meddelande...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {!loading && !error && message && (
         <MessageView
-          mode={mode}
+          mode={"view"}
           initialText={message.text}
           author={message.username}
           onEdit={isOwner ? handleEdit : null}
@@ -88,6 +86,6 @@ export const SingleMessagePage = () => {
           onBack={handleBack} // alltid visa tillbaka-knapp
         />
       )}
-    </section>
+    </Layout>
   );
 };
