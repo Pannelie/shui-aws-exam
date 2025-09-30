@@ -55,10 +55,12 @@ export const postMessageApi = async (token, text) => {
       }
     )
     .then((response) => ({ success: true, data: response.data }))
-    .catch(error)({
-    success: false,
-    message: error.response?.data?.message || "Misslyckades att skapa meddelande",
-  });
+    .catch((error) => {
+      return {
+        success: false,
+        message: error.response?.data?.message || "Misslyckades att skapa meddelande",
+      };
+    });
 };
 
 export const updateMessageByIdApi = async (messageId, token, text) => {
