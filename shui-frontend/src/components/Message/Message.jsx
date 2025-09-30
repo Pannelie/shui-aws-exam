@@ -1,11 +1,16 @@
 import "./message.css"; // CSS för lappar och pins
 
-export const Message = ({ text, className = "" }) => {
-  const rotation = Math.random() * 15 - 5;
-  const pinRotation = Math.random() * 20 - 10;
+export const Message = ({ text, mode = "view", onChange, className = "", rotation = 0, maxPreviewLength = 40 }) => {
   //  const pinColor = ["#ff4d4d", "#e60000", "#ff1a1a"];
   //lägga till olika färger?
   // lägg isf till fill: ${pinColor} under style för pin
+
+  const truncateText = (str, maxLength) => {
+    return str.length > maxLength ? str.slice(0, maxLength) + "…" : str;
+  };
+
+  // Endast visa förkortad text i "view"-mode
+  const displayText = mode === "view" ? truncateText(text, maxPreviewLength) : text;
 
   return (
     <div
@@ -25,7 +30,16 @@ export const Message = ({ text, className = "" }) => {
         {/* Bara ett cirkulärt huvud */}
         <circle cx="12" cy="12" r="8" fill="var(--pin-color)" />
       </svg>
-      <p className="message__text">{text}</p>
+      {mode === "view" && <p className="message__text">{displayText}</p>}
+
+      {(mode === "write" || mode === "edit") && (
+        <textarea
+          className="message__textarea"
+          placeholder="Skriv ditt meddelande här..."
+          value={text}
+          onChange={(e) => onChange && onChange(e.target.value)}
+        />
+      )}
     </div>
   );
 };
