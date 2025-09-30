@@ -17,7 +17,7 @@ export const RegisterForm = () => {
   useEffect(() => {
     const storedRole = localStorage.getItem("role");
     if (storedRole === "USER") {
-      navigate("/messages", { replace: true });
+      navigate("/messages/type/all", { replace: true });
     }
   }, [navigate]);
 

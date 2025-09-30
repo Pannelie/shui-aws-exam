@@ -3,6 +3,8 @@ import { HomePage } from "../pages/HomePage/HomePage";
 import { LoginPage } from "../pages/LoginPage/LoginPage";
 import { MessagesPage } from "../pages/MessagesPage/MessagesPage";
 import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
+import { NewMessagePage } from "../pages/NewMessagePage/NewMessagePage";
+import { SingleMessagePage } from "../pages/SingleMessagePage/SingleMessagePage";
 
 export const router = createBrowserRouter([
   {
@@ -20,9 +22,19 @@ export const router = createBrowserRouter([
   {
     path: "/messages",
     element: <MessagesPage />,
+    loader: async () => "/messages/type/all", // Du kan också göra redirect i useEffect i MessagesPage
+  },
+
+  {
+    path: "/messages/type/:type",
+    element: <MessagesPage />,
   },
   {
-    path: "/messages/:type",
-    element: <MessagesPage />,
+    path: "/messages/id/:messageId",
+    element: <SingleMessagePage />,
+  },
+  {
+    path: "/messages/write",
+    element: <NewMessagePage />,
   },
 ]);

@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
 import { getMessagesApi } from "../../api/messages";
 import { MessageSwitch } from "../../components/MessageSwitch/MessageSwitch";
+import { WriteButton } from "../../components/WriteButton/WriteButton";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
@@ -28,7 +29,7 @@ export const MessagesPage = () => {
   // Om URL saknar type, sätt default till "all"
   useEffect(() => {
     if (!type) {
-      navigate("/messages/all", { replace: true });
+      navigate("/messages/type/all", { replace: true });
     }
   }, [type, navigate]);
 
@@ -66,7 +67,7 @@ export const MessagesPage = () => {
   }, [type, token, navigate, setUser]);
 
   const handleViewChange = (newView) => {
-    navigate(`/messages/${newView}`);
+    navigate(`/messages/type/${newView}`);
   };
 
   return (
@@ -77,6 +78,7 @@ export const MessagesPage = () => {
       {loading && <p>Laddar meddelanden...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {!loading && !error && <MessageList messages={messages} />}
+      <WriteButton />
     </section>
   );
 };

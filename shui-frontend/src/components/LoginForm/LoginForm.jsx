@@ -16,13 +16,9 @@ export const LoginForm = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (user?.role === "USER") {
-      navigate("/messages", { replace: true });
-      return;
-    }
     const storedRole = localStorage.getItem("role");
-    if (storedRole === "USER") {
-      navigate("/messages", { replace: true });
+    if (user?.role === "USER" || storedRole === "USER") {
+      navigate("/messages/type/all", { replace: true });
     }
   }, [user, navigate]);
 
@@ -37,12 +33,12 @@ export const LoginForm = () => {
     if (result.success) {
       const { token, role } = result.data;
       console.log(`token: ${token}`);
-      setUser({ token, role: role.toUpperCase() });
+      setUser({ token, role: role.toUpperCase(), username: usernameRef.current.value });
 
       localStorage.setItem("token", token);
       localStorage.setItem("role", role.toUpperCase());
 
-      navigate("/messages", {
+      navigate("/messages/type/all", {
         state: { message: "Du är nu inloggad" },
       });
     } else {
@@ -61,7 +57,7 @@ export const LoginForm = () => {
         <input className="form__input" type="password" ref={passwordRef} placeholder="Lösenord" />
       </label>
       <Button className="form__button" onClick={loginUser} text={"Logga in"} />
-      {error && <Message text={error} className="message--form-error" />}
+      {error && <Message text={error} className="message--small message--form-error" />}
     </form>
   );
 };

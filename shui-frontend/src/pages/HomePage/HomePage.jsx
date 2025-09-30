@@ -16,7 +16,7 @@ export const HomePage = () => {
   useEffect(() => {
     // Navigera automatiskt till /messages om användaren är inloggad och token finns
     if (storedRole === "USER" && token) {
-      navigate("/messages", { replace: true });
+      navigate("/messages/type/all", { replace: true });
     }
   }, [storedRole, token, navigate]);
   //Om man är inloggad hamnar man inte på startsidan utan ser alla sina meddelenaden direkt
