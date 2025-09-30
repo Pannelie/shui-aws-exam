@@ -15,7 +15,7 @@ export const MessageList = ({ messages }) => {
   return (
     <ul className="message__list">
       {messages.map((message, index) => {
-        const isOwnMessage = user?.user === message.username;
+        const isOwnMessage = user?.username === message.username;
 
         const handleClick = () => {
           console.log(message);
