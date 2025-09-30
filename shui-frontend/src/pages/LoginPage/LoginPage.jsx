@@ -6,6 +6,7 @@ import { Button } from "../../components/Button/Button";
 import { Logo } from "../../components/logo/Logo";
 import { BottomImage } from "../../components/BottomImage/BottomImage";
 import "./loginPage.css";
+import { Layout } from "../../components/Layout/Layout";
 
 export const LoginPage = () => {
   const location = useLocation();
@@ -32,7 +33,7 @@ export const LoginPage = () => {
 
   return (
     <>
-      <section className="page login-page">
+      <Layout>
         <Logo />
         {successMsg && <div className="message success">{successMsg}</div>}
         {showForm && (
@@ -44,7 +45,7 @@ export const LoginPage = () => {
             </section>
           </>
         )}
-      </section>
+      </Layout>
       <BottomImage />
     </>
   );

@@ -5,6 +5,7 @@ import { BottomImage } from "../../components/BottomImage/BottomImage";
 import { useUserStore } from "../../stores/useUserStore";
 import "./homePage.css";
 import { Logo } from "../../components/logo/Logo";
+import { Layout } from "../../components/Layout/Layout";
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export const HomePage = () => {
 
   return (
     <>
-      <section className="page home-page">
+      <Layout>
         <Logo />
         <h1 className="home__title">Välkommen till Shui!</h1>
         <section className="home__button-section">
@@ -33,7 +34,7 @@ export const HomePage = () => {
           {/* </section> */}
         </section>{" "}
         <p className="home__text">Logga in eller registrera dig för att se meddelanden.</p>
-      </section>
+      </Layout>
       <BottomImage />
     </>
   );

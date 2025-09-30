@@ -1,0 +1,14 @@
+.page {
+  min-height: calc(100vh - 4rem); /* Alltid minst 100% av viewporthöjd minus padding */
+  padding: 7rem 1rem 2rem; /* Luft till toppen och botten */
+  margin: 0 auto;
+  width: 100vw;
+  max-width: 800px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 3rem;
+  position: relative;
+  text-align: center;
+}

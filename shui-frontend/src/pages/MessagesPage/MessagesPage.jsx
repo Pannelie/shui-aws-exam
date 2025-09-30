@@ -8,6 +8,7 @@ import { useUserStore } from "../../stores/useUserStore";
 import { getMessagesApi } from "../../api/messages";
 import { MessageSwitch } from "../../components/MessageSwitch/MessageSwitch";
 import { WriteButton } from "../../components/WriteButton/WriteButton";
+import { Layout } from "../../components/Layout/Layout";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
@@ -71,7 +72,8 @@ export const MessagesPage = () => {
   };
 
   return (
-    <section className="page messages-page">
+    <Layout>
+      {/* <section className="page messages-page"> */}
       <Logo />
       <LogoutButton />
       <MessageSwitch view={type || "all"} setView={handleViewChange} />
@@ -79,6 +81,6 @@ export const MessagesPage = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       {!loading && !error && <MessageList messages={messages} />}
       <WriteButton />
-    </section>
+    </Layout>
   );
 };
