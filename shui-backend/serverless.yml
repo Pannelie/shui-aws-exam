@@ -32,7 +32,13 @@ functions:
     handler: functions/messages/GetMessages/index.handler
     events:
       - httpApi:
-          path: /api/messages/{type} #ALL or MINE
+          path: /api/messages/type/{type} #ALL or MINE
+          method: GET
+  GetMessageById:
+    handler: functions/messages/GetMessageById/index.handler
+    events:
+      - httpApi:
+          path: /api/messages/id/{id} # t.ex. /api/messages/34h5
           method: GET
   PostMessage:
     handler: functions/messages/PostMessage/index.handler
