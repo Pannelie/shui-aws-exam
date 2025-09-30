@@ -4,13 +4,13 @@
   justify-content: center;
   text-align: center;
   font-family: "Quicksand", sans-serif;
-  width: 110px;
+
   aspect-ratio: 1;
   min-height: 100px;
   padding: 10px;
   border: 2px solid var(--paper-bg);
   background-color: var(--paper-bg);
-  border-radius: 8px;
+  border-radius: 2px;
   box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
   position: relative;
   transform: rotate(var(--rotation));
@@ -20,8 +20,27 @@
 .message:hover {
   transform: rotate(var(--hover-rotation));
 }
+.message--small {
+  width: 110px;
+}
+
+.message--large {
+  width: 100%;
+}
+
 .message__text {
   font-size: 0.9rem;
+}
+.message__textarea {
+  width: 100%;
+  height: 90%;
+  background: none;
+  border: none;
+  overflow: auto;
+  resize: none;
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 1.3rem;
 }
 .message--form-error {
   position: absolute;

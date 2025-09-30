@@ -1,7 +1,16 @@
 .write-button {
-  background-color: red;
+  background-color: var(--pin-color);
+  border: none;
+  border-radius: 5px;
   aspect-ratio: 1;
-  width: 1.5rem;
+  width: 4rem;
+
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
 }
 .write-button__icon {
+  font-size: 1.6rem;
+  aspect-ratio: 1;
+  color: var(--light-font-color);
 }
