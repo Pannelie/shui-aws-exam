@@ -125,6 +125,8 @@ export const addMessage = async ({ username, text }) => {
 };
 
 export const updateMessage = async (messageId, updateData) => {
+  console.log(messageId, "is messageId", updateData);
+
   try {
     const command = new QueryCommand({
       TableName: "shui-table",
@@ -137,8 +139,11 @@ export const updateMessage = async (messageId, updateData) => {
     });
 
     const result = await docClient.send(command);
+    console.log("Query result:", result);
     const message = result.Items?.[0];
     if (!message) throwError("Message not found", 404);
+    if (!message.PK || !message.SK) throwError("Missing PK or SK for update", 500);
+    console.log("Updating message with key:", { PK: message.PK, SK: message.SK });
 
     const updateCommand = new UpdateCommand({
       TableName: "shui-table",
