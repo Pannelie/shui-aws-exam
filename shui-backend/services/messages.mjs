@@ -1,7 +1,7 @@
 import { generateId } from "../utils/generateId.mjs";
 import { docClient } from "./client.mjs";
 import { throwError } from "../responses/throwError.mjs";
-import { DeleteCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { DeleteCommand, GetCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
 export const getMessages = async () => {
   const command = new QueryCommand({
@@ -64,19 +64,30 @@ export const getMessagesByUser = async (username) => {
 // };
 
 export const getMessageById = async (messageId) => {
+  if (!messageId) throwError("Missing messageId", 400);
+  console.log(`det här är messageId ${messageId}`);
   const command = new QueryCommand({
     TableName: "shui-table",
     IndexName: "GSI2",
-    KeyConditionExpression: "GSI2PK = :pk",
+    KeyConditionExpression: "GSI2PK = :pk AND GSI2SK = :sk",
     ExpressionAttributeValues: {
       ":pk": `MESSAGE#${messageId}`,
+      ":sk": "MESSAGE", // baserat på din GSI2SK
     },
     Limit: 1,
   });
-  const result = await docClient.send(command);
-  const message = result.Items?.[0];
-  if (!message) throwError("Message not found", 404);
-  return message;
+
+  try {
+    const result = await docClient.send(command);
+    const message = result.Items?.[0];
+
+    if (!message) throwError("Message not found", 404);
+
+    return message;
+  } catch (error) {
+    console.error("Error fetching message by ID:", error);
+    throwError("Could not fetch message", 500);
+  }
 };
 
 export const addMessage = async ({ username, text }) => {
