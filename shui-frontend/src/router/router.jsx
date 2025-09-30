@@ -3,7 +3,7 @@ import { HomePage } from "../pages/HomePage/HomePage";
 import { LoginPage } from "../pages/LoginPage/LoginPage";
 import { MessagesPage } from "../pages/MessagesPage/MessagesPage";
 import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
-import { NewMessagePage } from "../pages/NewMessagePage/NewMessagePage";
+import { EditMessagePage } from "../pages/EditMessagePage/EditMessagePage";
 import { SingleMessagePage } from "../pages/SingleMessagePage/SingleMessagePage";
 
 export const router = createBrowserRouter([
@@ -35,6 +35,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/messages/write",
-    element: <NewMessagePage />,
+    element: <EditMessagePage />,
   },
 ]);

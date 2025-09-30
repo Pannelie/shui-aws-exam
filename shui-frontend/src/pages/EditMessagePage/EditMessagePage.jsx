@@ -1,5 +1,5 @@
 import { MessageView } from "../../components/MessageView/MessageView";
-import "./newMessagePage.css";
+import "./editMessagePage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { postMessageApi } from "../../api/messages";
 import { useUserStore } from "../../stores/useUserStore";
@@ -7,7 +7,7 @@ import { Logo } from "../../components/logo/Logo";
 import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import { updateMessageByIdApi } from "../../api/messages";
 
-export const NewMessagePage = () => {
+export const EditMessagePage = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { user } = useUserStore();
@@ -48,7 +48,7 @@ export const NewMessagePage = () => {
   //   }
   // };
   return (
-    <section className="page new-message-page">
+    <section className="page edit-message-page">
       <Logo />
       <LogoutButton />
       <MessageView mode="write" initialText={existingMessage?.text || ""} onSave={handleSave} />
