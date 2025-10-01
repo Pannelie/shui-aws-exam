@@ -1,18 +1,21 @@
 import { MessageView } from "../../components/MessageView/MessageView";
 import "./editMessagePage.css";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { postMessageApi, updateMessageByIdApi, getMessageByIdApi } from "../../api/messages";
 import { useUserStore } from "../../stores/useUserStore";
 import { Logo } from "../../components/logo/Logo";
 import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import { Layout } from "../../components/Layout/Layout";
+import writeSound from "../../assets/sounds/write.mp3";
 
 export const EditMessagePage = () => {
   const params = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useUserStore();
+
+  const writeRef = useRef(null);
 
   const [existingMessage, setExistingMessage] = useState(location.state?.message || null);
   const [mode, setMode] = useState(location.state?.mode || "write");
@@ -25,6 +28,14 @@ export const EditMessagePage = () => {
 
   console.log(`this is mode: ${mode}`);
   console.log(`this is isEdit: ${isEdit}`);
+
+  useEffect(() => {
+    const write = new Audio(writeSound);
+    write.preload = "auto";
+    writeRef.current = write;
+
+    write.load();
+  }, []);
 
   useEffect(() => {
     const fetchMessage = async () => {
@@ -49,22 +60,43 @@ export const EditMessagePage = () => {
     if (!newText) return;
 
     try {
+      let result;
+      let redirectUrl;
+
       if (mode === "edit" && existingMessage?.messageId) {
-        const result = await updateMessageByIdApi(existingMessage.messageId, token, newText);
-        if (result.success) {
-          navigate(`/messages/id/${existingMessage.messageId}`, {
-            state: { message: { ...existingMessage, text: newText } },
-          });
+        result = await updateMessageByIdApi(existingMessage.messageId, token, newText);
+        redirectUrl = `/messages/id/${existingMessage.messageId}`;
+      } else {
+        result = await postMessageApi(token, newText);
+        redirectUrl = "/messages/type/mine";
+      }
+
+      if (result.success) {
+        if (writeRef.current) {
+          writeRef.current.currentTime = 0;
+          writeRef.current
+            .play()
+            .then(() => {
+              writeRef.current.onended = () => {
+                navigate(redirectUrl, {
+                  state: mode === "edit" ? { message: { ...existingMessage, text: newText } } : undefined,
+                });
+              };
+            })
+            .catch((error) => {
+              console.warn("Ljudet kunde inte spelas:", error);
+              // Fallback: Navigera direkt om ljud inte kunde spelas
+              navigate(redirectUrl, {
+                state: mode === "edit" ? { message: { ...existingMessage, text: newText } } : undefined,
+              });
+            });
         } else {
-          setError(result.message);
+          navigate(redirectUrl, {
+            state: mode === "edit" ? { message: { ...existingMessage, text: newText } } : undefined,
+          });
         }
       } else {
-        const result = await postMessageApi(token, newText);
-        if (result.success) {
-          navigate("/messages/type/mine");
-        } else {
-          setError(result.message);
-        }
+        setError(result.message);
       }
     } catch (error) {
       setError(error.message);
@@ -74,18 +106,8 @@ export const EditMessagePage = () => {
   const handleBack = () => navigate(-1);
   const handleEdit = () => setMode("edit");
 
-  // const handleCreateNewMessage = async (newText) => {
-  //   const result = await postMessageApi(token, newText);
-
-  //   if (result.success) {
-  //     navigate("/messages/type/mine");
-  //   } else {
-  //     console.error(`Fel: ${result.message}`);
-  //   }
-  // };
   return (
     <Layout>
-      {/* <section className="page edit-message-page"> */}
       <Logo />
       <LogoutButton />
       {loading && <p>Laddar meddelande...</p>}
