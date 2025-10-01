@@ -3,10 +3,12 @@ import "./writeButton.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const WriteButton = () => {
   const navigate = useNavigate();
+
   const handleClick = () => {
     navigate("/messages/write"); // byt "/write" till din route för att skriva nytt meddelande
   };
