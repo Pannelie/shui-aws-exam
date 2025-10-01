@@ -6,7 +6,7 @@ import { useUserStore } from "../../stores/useUserStore";
 export const MessageList = ({ messages }) => {
   const navigate = useNavigate();
   const { user } = useUserStore();
-  console.log("user from store:", user);
+  // console.log("user from store:", user);
 
   const rotation = Math.random() * 15 - 5;
   if (!messages || messages.length === 0) {
