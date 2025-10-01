@@ -5,6 +5,9 @@ import { getMessageByIdApi, deleteMessageByIdApi } from "../../api/messages";
 import { useUserStore } from "../../stores/useUserStore";
 import { MessageView } from "../../components/MessageView/MessageView";
 import { Layout } from "../../components/Layout/Layout";
+import { Header } from "../../components/Header/Header";
+import { Logo } from "../../components/logo/Logo";
+import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 
 export const SingleMessagePage = () => {
   const { messageId } = useParams();
@@ -74,6 +77,8 @@ export const SingleMessagePage = () => {
 
   return (
     <Layout>
+      <Header showSwitch={false} />
+      {/* <Logo /> */}
       {loading && <p>Laddar meddelande...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       {!loading && !error && message && (
@@ -86,6 +91,7 @@ export const SingleMessagePage = () => {
           onBack={handleBack} // alltid visa tillbaka-knapp
         />
       )}
+      {/* <LogoutButton /> */}
     </Layout>
   );
 };

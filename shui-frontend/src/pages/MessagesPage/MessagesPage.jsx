@@ -1,14 +1,12 @@
 import "./messagesPage.css";
-import { Logo } from "../../components/logo/Logo";
-import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import { MessageList } from "../../components/MessageList/MessageList";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
 import { getMessagesApi } from "../../api/messages";
-import { MessageSwitch } from "../../components/MessageSwitch/MessageSwitch";
 import { WriteButton } from "../../components/WriteButton/WriteButton";
 import { Layout } from "../../components/Layout/Layout";
+import { Header } from "../../components/Header/Header";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
@@ -73,13 +71,14 @@ export const MessagesPage = () => {
 
   return (
     <Layout>
-      {/* <section className="page messages-page"> */}
-      <Logo />
-      <LogoutButton />
-      <MessageSwitch view={type || "all"} setView={handleViewChange} />
-      {loading && <p>Laddar meddelanden...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {!loading && !error && <MessageList messages={messages} />}
+      <Header view={type || "all"} setView={handleViewChange} />
+      <main className="main">
+        <div className="message__list-container">
+          {loading && <p>Laddar meddelanden...</p>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {!loading && !error && <MessageList messages={messages} />}
+        </div>
+      </main>
       <WriteButton />
     </Layout>
   );
