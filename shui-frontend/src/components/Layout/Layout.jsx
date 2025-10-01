@@ -1,3 +1,3 @@
 import "./layout.css";
 
-export const Layout = ({ children, className }) => <section className={`page {className}`}>{children}</section>;
+export const Layout = ({ children }) => <section className="page">{children}</section>;
