@@ -1,3 +1,11 @@
+.segment-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* lite mellanrum mellan switch och sort */
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
 .segment-paper {
   /* avstånd från toppen */
   /* left: 50%;
@@ -62,4 +70,9 @@
 
 .user-icon {
   font-size: 1.2rem;
+}
+
+.sort-button-container {
+  display: flex;
+  justify-content: center;
 }
