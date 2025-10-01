@@ -1,0 +1,72 @@
+/* boatPage.css */
+.ocean-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--main-bg-color); /* himmelblå bakgrund */
+}
+
+/* Havet */
+.ocean {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 300px; /* öka höjden så att animationen inte når bakgrunden */
+  overflow: hidden;
+  z-index: 3;
+}
+
+.ocean-blue {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 4rem; /* behåll samma */
+  background-color: #03aff9;
+  z-index: 2;
+}
+
+.ocean-image {
+  position: absolute;
+  bottom: 0; /* startar precis ovanför blå div */
+  width: 100%;
+  height: auto;
+  animation: wave 3s ease-in-out infinite alternate;
+}
+
+/* Båten */
+.boat {
+  position: absolute;
+  bottom: 60px; /* startposition ovanför havet */
+  left: 50%;
+  transform: translateX(-50%) rotate(-10deg);
+  animation: boatBob 2s ease-in-out infinite alternate;
+  z-index: 3; /* ovanför havet */
+}
+
+.boat img {
+  width: 100px;
+}
+
+/* Våganimation */
+@keyframes wave {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Båt guppar lite */
+@keyframes boatBob {
+  0% {
+    transform: translateX(-50%) rotate(-10deg) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) rotate(-10deg) translateY(-10px);
+  }
+  100% {
+    transform: translateX(-50%) rotate(-10deg) translateY(0);
+  }
+}

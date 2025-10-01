@@ -6,6 +6,7 @@ import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
 import { EditMessagePage } from "../pages/EditMessagePage/EditMessagePage";
 import { SingleMessagePage } from "../pages/SingleMessagePage/SingleMessagePage";
 import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
+import { BoatPage } from "../pages/BoatPage/BoatPage";
 
 const RootLayout = () => <Outlet />;
 
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />, // gemensam felsida för alla child-routes
     children: [
       { path: "/", element: <HomePage /> },
+      { path: "/boat", element: <BoatPage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
       { path: "/messages", element: <MessagesPage /> },
