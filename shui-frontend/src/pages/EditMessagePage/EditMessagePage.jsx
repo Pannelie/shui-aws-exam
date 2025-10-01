@@ -15,6 +15,7 @@ export const EditMessagePage = () => {
   const location = useLocation();
   const { user } = useUserStore();
 
+  console.log("Ljudfil URL:", writeSound);
   const writeRef = useRef(null);
 
   const [existingMessage, setExistingMessage] = useState(location.state?.message || null);
