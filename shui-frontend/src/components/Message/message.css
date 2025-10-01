@@ -7,7 +7,7 @@
 
   aspect-ratio: 1;
   min-height: 100px;
-  padding: 10px;
+  padding: 1.8rem 1rem 0.7rem;
   border: 2px solid var(--paper-bg);
   background-color: var(--paper-bg);
   border-radius: 2px;
@@ -15,22 +15,48 @@
   position: relative;
   transform: rotate(var(--rotation));
   transition: transform 0.3s;
+
+  position: relative;
+}
+.message-cursor {
+  cursor: pointer;
 }
 
 .message:hover {
   transform: rotate(var(--hover-rotation));
 }
 .message--small {
-  width: 110px;
+  width: 140px;
+  font-size: 0.9rem;
 }
 
 .message--large {
   width: 100%;
+  font-size: 1.3rem;
+}
+.message__content {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+.message__text {
+  text-align: left;
 }
 
-.message__text {
-  font-size: 0.9rem;
+.message__meta {
+  margin-top: auto;
+  text-align: right;
 }
+.message__author {
+  font-style: italic;
+}
+
+.message__date {
+  font-size: 0.7rem;
+}
+
 .message__textarea {
   width: 100%;
   height: 90%;

@@ -1,0 +1,26 @@
+.header {
+  width: 100%;
+
+  padding-bottom: 0.6rem;
+
+  position: fixed;
+  top: 0;
+  right: 50%;
+  transform: translateX(50%);
+
+  background-color: var(--main-bg-color);
+  text-align: center;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+}
+
+.header--full {
+  height: 180px;
+}
+.header--compact {
+  height: 120px;
+}

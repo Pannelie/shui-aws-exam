@@ -1,17 +1,34 @@
+.message__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* två kolumner */
+  gap: 1.8rem;
+  justify-content: center;
+  padding: 0;
+}
+
+.message__list-item {
+  width: 100%;
+  aspect-ratio: 1; /* kvadratiska lappar */
+  list-style: none;
+}
+
+/* .message__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* min 150px, max 1fr → fyller raden jämnt */
+/*gap: 1.5rem;
+  justify-content: center; /* centrerar grid om raden inte är full */
+/*list-style: none;
+  margin: 1rem;
+}
+
+.message__list-item {
+  width: 100%;
+  aspect-ratio: 1; /* kvadratiska lappar } */
+
 .message__no-messages {
   text-align: center;
   margin-top: 2rem;
   font-style: italic;
   color: var(--error-color);
-}
-
-.message__list {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  /* padding: 20px; */
-  list-style: none;
-  /* margin-top: 10%; */
 }

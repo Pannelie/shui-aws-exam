@@ -1,13 +1,25 @@
 .segment-paper {
+  /* avstånd från toppen */
+  /* left: 50%;
+  transform: translateX(-50%); */
+  z-index: 100; /* ovanpå allt annat */
+  display: flex;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin: 0 auto 0;
+
   position: relative;
+  /* position: sticky;
   display: flex;
   width: 100%;
   max-width: 300px;
   margin: 0 auto;
   /* background-color: var(--pin-color) / var(--pin-opacity); */
-  border-radius: 5px;
+  /*border-radius: 5px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  overflow: hidden; */
 }
 
 .segment-btn {
