@@ -4,7 +4,7 @@ import { Button } from "../Button/Button";
 import { useState, useEffect } from "react";
 
 //lägg till onDelete,
-export const MessageView = ({ mode = "view", initialText = "", author, onEdit, onDelete, onBack, onSave }) => {
+export const MessageView = ({ mode = "view", initialText = "", author, onEdit, onDelete, onBack, onSave, isDeleting = false }) => {
   const [text, setText] = useState(initialText);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export const MessageView = ({ mode = "view", initialText = "", author, onEdit, o
 
   return (
     <div className="message-view-wrapper">
-      <Message text={text} mode={mode} className="message--large" onChange={setText} truncate={false} />
+      <Message text={text} mode={mode} className={`message--large ${isDeleting ? "deleting" : ""}`} onChange={setText} truncate={false} />
       <div className="message-actions">
         {mode === "view" && (
           <div className="message__title-box">
