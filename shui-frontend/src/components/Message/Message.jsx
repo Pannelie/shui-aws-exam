@@ -42,7 +42,7 @@ export const Message = ({ text, mode = "view", onChange, className = "", rotatio
         {author && date && (
           <div className="message__meta">
             <p className="message__author">{author}</p>
-            <p className="message__date">{new Date(date).toLocaleDateString("sv-SE")}</p>
+            <p className="message__date">{date}</p>
           </div>
         )}
       </div>
