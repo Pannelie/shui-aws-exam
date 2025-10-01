@@ -2,7 +2,7 @@ import "./sortGroup.css";
 import { FaArrowUp, FaArrowDown, FaSortAlphaUp, FaSortAlphaDown } from "react-icons/fa";
 import { useState } from "react";
 
-export const SortGroup = ({ label, type, onToggle }) => {
+export const SortGroup = ({ label, type, activeSort, onToggle }) => {
   const [ascending, setAscending] = useState(true); // default sort: ascending
 
   const handleClick = () => {
