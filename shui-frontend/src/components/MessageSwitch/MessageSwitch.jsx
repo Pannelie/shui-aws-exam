@@ -9,11 +9,17 @@ export const MessageSwitch = ({ view, setView }) => {
   const [switching, setSwitching] = useState(false);
   const audioRef = useRef(null);
 
-  //förladdar ljudet direkt sidan mountas
+  //förladdar ljudeffekt
   useEffect(() => {
     const audio = new Audio(pageFlipSound);
     audio.preload = "auto";
     audioRef.current = audio;
+
+    // Dummy play för att ladda in ljudet i minnet
+    audio
+      .play()
+      .then(() => audio.pause())
+      .catch(() => {});
   }, []);
 
   const handleClick = (newView) => {
