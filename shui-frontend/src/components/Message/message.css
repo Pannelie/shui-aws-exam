@@ -12,7 +12,6 @@
   background-color: var(--paper-bg);
   border-radius: 2px;
   box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
-  position: relative;
   transform: rotate(var(--rotation));
   transition: transform 0.3s;
 
@@ -34,6 +33,29 @@
   width: 100%;
   font-size: 1.3rem;
 }
+
+.message.deleting {
+  animation: crumple 0.8s forwards;
+}
+
+@keyframes crumple {
+  0% {
+    transform: scale(1) rotate(var(--rotation));
+    opacity: 1;
+  }
+  30% {
+    transform: scale(0.9) rotate(calc(var(--rotation) + 15deg));
+  }
+  60% {
+    transform: scale(0.6) rotate(calc(var(--rotation) - 10deg));
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0) rotate(var(--rotation));
+    opacity: 0;
+  }
+}
+
 .message__content {
   overflow-y: auto;
   display: flex;
