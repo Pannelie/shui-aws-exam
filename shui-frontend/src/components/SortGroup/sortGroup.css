@@ -1,15 +1,23 @@
 .sort-toggle-button {
-  background-color: var(--pin-color);
+  background-color: var(--main-bg-color);
   color: white;
   border: none;
-
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   border-radius: 4px;
-  border: none;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .sort-toggle-button:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+}
+
+.sort-toggle-button.active {
+  background-color: #c62828; /* Röd ton (du kan justera nyansen) */
+  font-weight: bold;
 }

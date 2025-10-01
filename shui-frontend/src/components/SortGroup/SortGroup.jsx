@@ -1,31 +1,33 @@
 import "./sortGroup.css";
-import { FaArrowUp, FaArrowDown, FaSortAlphaUp, FaSortAlphaDown } from "react-icons/fa";
-import { useState } from "react";
+import { FaSortAmountUp, FaSortAmountDown, FaSortAlphaUp, FaSortAlphaDown } from "react-icons/fa";
 
 export const SortGroup = ({ label, type, activeSort, onToggle }) => {
-  const [ascending, setAscending] = useState(true); // default sort: ascending
+  const isActive = activeSort === `${type}_asc` || activeSort === `${type}_desc`;
+  const ascending = activeSort === `${type}_asc` || !isActive;
 
   const handleClick = () => {
-    let sortValue;
+    let newSortValue;
 
-    if (type === "date") {
-      sortValue = ascending ? "date_desc" : "date_asc";
-    } else if (type === "sender") {
-      sortValue = ascending ? "sender_desc" : "sender_asc";
+    if (!isActive) {
+      newSortValue = `${type}_asc`;
+    } else if (ascending) {
+      newSortValue = `${type}_desc`;
+    } else {
+      newSortValue = null;
     }
 
-    setAscending(!ascending);
-    onToggle(sortValue); // skickar sorteringsvärdet tillbaka till MessageSwitch
+    onToggle(newSortValue); // skickar sorteringsvärdet tillbaka till MessageSwitch
   };
 
   const getIcon = () => {
-    if (type === "date") return ascending ? <FaArrowDown /> : <FaArrowUp />;
+    if (!isActive) return type === "date" ? <FaSortAmountDown /> : <FaSortAlphaDown />; // visar default ikon
+    if (type === "date") return ascending ? <FaSortAmountDown /> : <FaSortAmountUp />;
     if (type === "sender") return ascending ? <FaSortAlphaDown /> : <FaSortAlphaUp />;
     return null;
   };
 
   return (
-    <button onClick={handleClick} className="sort-toggle-button">
+    <button onClick={handleClick} className={`sort-toggle-button ${isActive ? "active" : ""}`} aria-label={label}>
       {getIcon()} {label}
     </button>
   );
