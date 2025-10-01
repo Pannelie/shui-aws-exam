@@ -1,0 +1,15 @@
+.sort-toggle-button {
+  background-color: var(--pin-color);
+  color: white;
+  border: none;
+
+  font-size: 1.2rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.sort-toggle-button:hover {
+  transform: scale(1.1);
+}
