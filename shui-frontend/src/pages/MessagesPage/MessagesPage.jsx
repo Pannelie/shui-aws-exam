@@ -7,7 +7,6 @@ import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
 import { WriteButton } from "../../components/WriteButton/WriteButton";
 import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
-import { MessageSwitch } from "../../components/MessageSwitch/MessageSwitch";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
@@ -15,12 +14,30 @@ export const MessagesPage = () => {
   const { type } = useParams();
 
   const [view, setView] = useState(type || "all");
+  const [sortOrder, setSortOrder] = useState("date_asc"); // test för sortering
+  // const [activeSort, setActiveSort] = useState(null); // t.ex. "date_desc", "sender_asc"
+
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const token = user?.token || localStorage.getItem("token");
-  const username = user?.username;
+
+  const sortedMessages = [...messages].sort((a, b) => {
+    switch (sortOrder) {
+      case "date_asc":
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      case "date_desc":
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      case "sender_asc":
+        return a.username.localeCompare(b.username);
+      case "sender_desc":
+        return b.username.localeCompare(a.username);
+      default:
+        return 0;
+    }
+  });
+
   useEffect(() => {
     if (!token) {
       navigate("/login", { replace: true });
@@ -50,8 +67,6 @@ export const MessagesPage = () => {
         if (view === "all") {
           result = await getMessagesApi(token);
         } else {
-          console.log(username);
-
           result = await getMessagesByUserApi(token);
           console.log(result);
         }
@@ -76,7 +91,7 @@ export const MessagesPage = () => {
     };
 
     fetchMessages();
-  }, [view, token, username, navigate, setUser]);
+  }, [view, token, navigate, setUser]);
 
   // const handleViewChange = (newView) => {
   //   navigate(`/messages/type/${newView}`);
@@ -88,12 +103,12 @@ export const MessagesPage = () => {
 
   return (
     <Layout>
-      <Header view={view} setView={setView} username={username} setMessages={setMessages} />
+      <Header view={view} setView={setView} activeSort={sortOrder} onToggle={setSortOrder} />
       <main className="main">
         <div className="message__list-container">
           {loading && <p>Laddar meddelanden...</p>}
           {error && <p style={{ color: "red" }}>{error}</p>}
-          {!loading && !error && <MessageList messages={messages} />}
+          {!loading && !error && <MessageList messages={sortedMessages} />}
         </div>
       </main>
       <WriteButton />
