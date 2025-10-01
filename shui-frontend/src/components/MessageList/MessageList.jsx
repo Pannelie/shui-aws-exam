@@ -16,6 +16,7 @@ export const MessageList = ({ messages }) => {
     <ul className="message__list">
       {messages.map((message, index) => {
         const isOwnMessage = user?.username === message.username;
+        const rotation = Math.random() * 15 - 5;
 
         const handleClick = () => {
           console.log(message);
@@ -29,7 +30,15 @@ export const MessageList = ({ messages }) => {
 
         return (
           <li key={message.id || index} onClick={handleClick} className="message__list-item">
-            <Message text={message.text || message} className="message--small" rotation={rotation} />
+            <Message
+              text={message.text || message}
+              className="message--small"
+              rotation={rotation}
+              author={message.username}
+              date={message.createdAt}
+              mode="view"
+              truncate="true"
+            />
           </li>
         );
       })}

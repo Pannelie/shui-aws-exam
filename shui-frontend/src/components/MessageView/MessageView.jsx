@@ -15,12 +15,12 @@ export const MessageView = ({ mode = "view", initialText = "", author, onEdit, o
 
   return (
     <div className="message-view-wrapper">
-      <Message text={text} mode={mode} className="message--large" onChange={setText} />
+      <Message text={text} mode={mode} className="message--large" onChange={setText} truncate={false} />
       <div className="message-actions">
         {mode === "view" && (
-          <p>
-            <strong>Från:</strong> {author}
-          </p>
+          <div className="message__title-box">
+            <p className="message__title">{author}</p>
+          </div>
         )}
         {mode === "view" && onEdit && <Button onClick={onEdit} text="Redigera" />}
         {mode === "view" && onDelete && <Button onClick={onDelete} text="Ta bort" />}
