@@ -9,7 +9,8 @@
 }
 
 :root {
-  --pin-color: #d53838;
+  --main-red-color: #d53838;
+  --dark-red-btn: #b62020;
   --blue-pin: #00b2ff;
   --pin-opacity: 0.9;
   --main-bg-color: #19274a;
@@ -17,6 +18,8 @@
   --light-font-color: #fff;
   --dark-font-color: #000;
   --paper-bg: #d9d9d9;
+
+  --font-fun: "Fuzzy Bubbles", sans-serif;
 }
 body {
   background-color: var(--main-bg-color);

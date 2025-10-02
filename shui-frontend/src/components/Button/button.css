@@ -1,11 +1,33 @@
 .button {
-  background-color: var(--pin-color);
+  background-color: var(--main-red-color);
+  color: var(--light-font-color);
+
   width: 100%;
   padding: 1rem;
   border: none;
   border-radius: 4px;
   font-family: "Quicksand", sans-serif;
   font-weight: 500;
-
   cursor: pointer;
+
+  transition: box-shadow 0.2s ease-in-out;
+}
+.button:hover {
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+}
+.button span {
+  font-size: 0.9rem;
+  line-height: 1; /* eller samma som font-size */
+  display: inline-block; /* nödvändigt för transform */
+  transition: transform 0.3s ease-in-out; /* smidig animation */
+  transform-origin: center;
+}
+
+.button:hover span {
+  transform: scale(1.1); /* bara texten zoomas */
+}
+.button--small {
+  background-color: var(--dark-red-btn);
+  width: 60%;
+  padding: 0.8rem;
 }

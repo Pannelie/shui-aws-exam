@@ -4,7 +4,7 @@
   left: 50%;
   transform: translateX(-50%) rotate(0deg) scale(1);
   font-size: 1.2rem;
-  color: var(--pin-color);
+  color: var(--main-red-color);
   background-color: var(--paper-bg);
   text-align: center;
   padding: 1rem;

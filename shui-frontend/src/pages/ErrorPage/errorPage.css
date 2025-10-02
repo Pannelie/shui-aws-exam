@@ -7,7 +7,7 @@
 
 .error__title {
   font-size: 3rem;
-  color: var(--pin-color);
+  color: var(--main-red-color);
 }
 
 .error__text {

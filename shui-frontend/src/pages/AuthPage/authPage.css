@@ -1,0 +1,15 @@
+.button-section {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.button__info-text {
+  color: var(--light-font-color);
+  font-family: var(--font-fun);
+  font-size: 0.8rem;
+}

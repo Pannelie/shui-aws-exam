@@ -90,11 +90,39 @@
   font-family: inherit;
   font-size: 1.3rem;
 }
-.message--form-error {
-  position: absolute;
-  right: -20px;
-  top: -7rem;
+
+.message--highlight {
+  background-color: #fff2a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-size: 1.5rem;
+  width: 70%;
 }
+
+.message__form-error {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  right: 0;
+  top: -40%;
+  width: 100px;
+  font-size: 0.7rem;
+  font-family: var(--font-fun);
+  padding: 1rem 0.5rem 0.5rem;
+}
+.message__form-error .message__content,
+.message--highlight .message__content {
+  justify-content: center;
+}
+.message__form-error .message__text,
+.message--highlight .message__text {
+  text-align: center;
+}
+
 .pin {
   width: 30px; /* storlek på cirkeln */
   height: 30px;

@@ -24,7 +24,7 @@
   width: 100%;
   max-width: 300px;
   margin: 0 auto;
-  /* background-color: var(--pin-color) / var(--pin-opacity); */
+  /* background-color: var(--main-red-color) / var(--pin-opacity); */
   /*border-radius: 5px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   overflow: hidden; */
@@ -55,7 +55,7 @@
   top: 0;
   bottom: 0;
   width: 50%;
-  background: var(--pin-color);
+  background: var(--main-red-color);
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* “springy” flip effect */
   z-index: 1;
 }
