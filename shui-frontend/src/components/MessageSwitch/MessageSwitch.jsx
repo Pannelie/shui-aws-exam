@@ -6,9 +6,17 @@ import pageFlipSound from "../../assets/sounds/page-flip-sound.mp3";
 import { SortGroup } from "../SortGroup/SortGroup";
 import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
 
-export const MessageSwitch = ({ view, setView, setMessages, activeSort, onToggle }) => {
+export const MessageSwitch = ({
+  view,
+  setView,
+  setMessages,
+  activeSort,
+  onToggle,
+  activeUserFilter,
+  onClearUserFilter,
+  setActiveUserFilter,
+}) => {
   const [switching, setSwitching] = useState(false);
-  // const [sortOption, setSortOption] = useState("date_desc");
   const audioRef = useRef(null);
 
   const token = localStorage.getItem("token");
@@ -94,6 +102,18 @@ export const MessageSwitch = ({ view, setView, setMessages, activeSort, onToggle
       <div className="sort-button-container">
         <SortGroup arialabel="Datum" type="date" activeSort={activeSort} onToggle={handleSortToggle} />
         <SortGroup arialabel="Avsändare" type="sender" activeSort={activeSort} onToggle={handleSortToggle} />
+        {activeUserFilter && (
+          <SortGroup
+            arialabel="Avsändare"
+            type="user"
+            activeSort={activeSort}
+            activeUserFilter={activeUserFilter}
+            onToggle={(val) => {
+              if (!val) onClearUserFilter();
+              else setActiveUserFilter("user"); // aktivera röd styling direkt
+            }}
+          />
+        )}
       </div>
     </div>
   );
