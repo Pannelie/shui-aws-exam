@@ -28,11 +28,9 @@ export const MessageView = ({
       <Message text={text} mode={mode} className={`message--large ${isDeleting ? "deleting" : ""}`} onChange={setText} truncate={false} />
       <div className="message-actions">
         {mode === "view" && (
-          <div className="message__title-box">
-            <p className="message__title clickable" onClick={onAuthorClick}>
-              {author}
-            </p>
-          </div>
+          <button className="message__title-button clickable" onClick={onAuthorClick}>
+            <span>{author}</span>
+          </button>
         )}
         {mode === "view" && onEdit && <Button onClick={onEdit} text="Redigera" />}
         {mode === "view" && onDelete && <Button onClick={onDelete} text="Ta bort" />}
