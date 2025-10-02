@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { Button } from "../../components/Button/Button";
-import { BottomImage } from "../../components/BottomImage/BottomImage";
-import { useUserStore } from "../../stores/useUserStore";
 import "./homePage.css";
-import { Logo } from "../../components/logo/Logo";
-import { Layout } from "../../components/Layout/Layout";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useUserStore } from "../../stores/useUserStore";
+import boat from "../../assets/vectors/top.png";
+import ocean from "../../assets/vectors/BottomImage.png";
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -13,6 +11,18 @@ export const HomePage = () => {
 
   const token = user?.token || localStorage.getItem("token");
   const storedRole = user?.role || localStorage.getItem("role");
+
+  const [showFinal, setShowFinal] = useState(false);
+
+  useEffect(() => {
+    const timer1 = setTimeout(() => setShowFinal(true), 3000);
+    const timer2 = setTimeout(() => navigate("/login"), 9000);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, [navigate]);
 
   useEffect(() => {
     // Navigera automatiskt till /messages om användaren är inloggad och token finns
@@ -23,19 +33,16 @@ export const HomePage = () => {
   //Om man är inloggad hamnar man inte på startsidan utan ser alla sina meddelenaden direkt
 
   return (
-    <>
-      <Layout>
-        <Logo />
-        <h1 className="home__title">Välkommen till Shui!</h1>
-        <section className="home__button-section">
-          {/* <section className="home__button-section"> */}
-          <Button className="button home__button" onClick={() => navigate("/login")} text="Logga in" />
-          <Button className="button home__button" onClick={() => navigate("/register")} text="Registrera" />
-          {/* </section> */}
-        </section>{" "}
-        <p className="home__text">Logga in eller registrera dig för att se meddelanden.</p>
-      </Layout>
-      <BottomImage />
-    </>
+    <div className="ocean-container">
+      <div className="ocean-blue"></div>
+      <img src={ocean} alt="ocean-image" className="ocean-image ocean-image--back" />
+      <div className={`boat ${showFinal ? "boat-final" : ""}`}>
+        <img src={boat} alt="S-båt" className="boat-image" />
+      </div>
+      <img src={ocean} alt="ocean-image" className="ocean-image ocean-image--front" />
+
+      <h1 className={`app-title ${showFinal ? "app-title--visible" : ""}`}>Shui</h1>
+      <h2 className={`app-subtitle ${showFinal ? "app-subtitle--visible" : ""}`}>din personliga anslagstavla</h2>
+    </div>
   );
 };
