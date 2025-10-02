@@ -73,6 +73,14 @@ export const SingleMessagePage = () => {
   const handleEdit = () => {
     navigate("/messages/write", { state: { message, mode: "edit" } });
   };
+  // ----------------------------TEST---------------------
+  const handleAuthorClick = () => {
+    navigate("/messages/type/all", {
+      state: {
+        userFilter: message.username,
+      },
+    });
+  };
 
   const handleDelete = () => {
     if (!messageId || isDeleting) return; // förhindra dubbelklick
@@ -138,6 +146,7 @@ export const SingleMessagePage = () => {
           onDelete={isOwner ? handleDelete : null}
           onBack={handleBack} // alltid visa tillbaka-knapp
           isDeleting={isDeleting}
+          onAuthorClick={handleAuthorClick}
         />
       )}
 

@@ -1,7 +1,7 @@
 import "./messagesPage.css";
 import { MessageList } from "../../components/MessageList/MessageList";
 import { useEffect, useState, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
 import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
 import { WriteButton } from "../../components/WriteButton/WriteButton";
@@ -12,9 +12,11 @@ import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const { type } = useParams();
 
   const [view, setView] = useState(type || "all");
+  const [activeUserFilter, setActiveUserFilter] = useState(null);
   const [sortOrder, setSortOrder] = useState("date_asc"); // test för sortering
   // const [activeSort, setActiveSort] = useState(null); // t.ex. "date_desc", "sender_asc"
 
@@ -38,6 +40,8 @@ export const MessagesPage = () => {
         return 0;
     }
   });
+
+  const filteredMessages = activeUserFilter ? sortedMessages.filter((msg) => msg.username === activeUserFilter) : sortedMessages;
 
   useEffect(() => {
     if (!token) {
@@ -90,14 +94,27 @@ export const MessagesPage = () => {
     navigate(`/messages/type/${view}`, { replace: true });
   }, [view, navigate]);
 
+  useEffect(() => {
+    if (location.state?.userFilter) {
+      setActiveUserFilter(location.state.userFilter);
+    }
+  }, [location.state?.userFilter]);
   return (
     <Layout>
-      <Header view={view} setView={setView} activeSort={sortOrder} onToggle={setSortOrder} />
+      <Header
+        view={view}
+        setView={setView}
+        activeSort={sortOrder}
+        onToggle={setSortOrder}
+        activeUserFilter={activeUserFilter}
+        onClearUserFilter={() => setActiveUserFilter(null)}
+        setActiveUserFilter={setActiveUserFilter}
+      />
       <main className="main">
         <div className="message__list-container">
           {loading && <InfoMessage text="laddar meddelanden..." className="info--normal" />}
           {error && <InfoMessage text={error} className="info--error" />}
-          {!loading && !error && <MessageList messages={sortedMessages} />}
+          {!loading && !error && <MessageList messages={filteredMessages} activeUserFilter={activeUserFilter} />}
         </div>
       </main>
       <WriteButton />

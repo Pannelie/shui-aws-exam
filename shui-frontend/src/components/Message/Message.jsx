@@ -38,7 +38,7 @@ export const Message = ({ text, mode = "view", onChange, className = "", rotatio
             value={text}
             onChange={(e) => onChange && onChange(e.target.value)}
           />
-        )}{" "}
+        )}
         {author && date && (
           <div className="message__meta">
             <p className="message__author">{author}</p>

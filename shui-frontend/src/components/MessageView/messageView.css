@@ -34,15 +34,44 @@
 .message-actions button {
   grid-column: span 1; /* alla knappar tar 1 kolumn som standard */
 }
-
+.message-actions button:first-child {
+  grid-column: span 2; /* sista knappen tar 2 kolumner */
+}
 .message-actions button:last-child {
   grid-column: span 2; /* sista knappen tar 2 kolumner */
 }
-.message__title-box {
+/* .message__title-box {
   border: 1px solid var(--light-font-color);
   border-radius: 4px;
   padding: 1rem;
+} */
+
+.message__title-button {
+  grid-column: span 2;
+  background: none;
+  color: var(--light-font-color);
+  border: 1px solid var(--light-font-color);
+
+  width: 100%;
+  padding: 1rem;
+  border-radius: 4px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+
+  transition: box-shadow 0.2s ease-in-out;
+}
+.message__title-button:hover {
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+}
+.message__title-button.clickable span {
+  font-size: 0.9rem;
+  line-height: 1; /* eller samma som font-size */
+  display: inline-block; /* nödvändigt för transform */
+  transition: transform 0.3s ease-in-out; /* smidig animation */
+  transform-origin: center;
 }
 
-.message__title {
+.message__title-button.clickable:hover span {
+  transform: scale(1.1); /* bara texten zoomas */
 }

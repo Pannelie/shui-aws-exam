@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
 import { InfoMessage } from "../InfoMessage/InfoMessage";
 
-export const MessageList = ({ messages }) => {
+export const MessageList = ({ messages, setActiveUserFilter }) => {
   const navigate = useNavigate();
   const { user } = useUserStore();
   // console.log("user from store:", user);
@@ -39,6 +39,7 @@ export const MessageList = ({ messages }) => {
               date={message.createdAt}
               mode="view"
               truncate="true"
+              setActiveUserFilter={setActiveUserFilter}
             />
           </li>
         );
