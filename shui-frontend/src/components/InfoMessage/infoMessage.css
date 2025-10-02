@@ -1,0 +1,13 @@
+.info {
+  font-size: 1.3rem;
+  text-align: center;
+  margin-top: 50%;
+}
+
+.info--normal {
+  color: var(--light-font-color);
+}
+
+.info--error {
+  color: var(--main-red-color);
+}

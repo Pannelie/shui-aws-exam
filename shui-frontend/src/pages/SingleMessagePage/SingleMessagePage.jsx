@@ -10,6 +10,7 @@ import { Logo } from "../../components/logo/Logo";
 import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import crumpleSound from "../../assets/sounds/crumple-paper.mp3";
 import trashSound from "../../assets/sounds/paper-bin-toss.mp3";
+import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 
 export const SingleMessagePage = () => {
   const { messageId } = useParams();
@@ -121,8 +122,8 @@ export const SingleMessagePage = () => {
       <audio ref={crumpleRef} src={crumpleSound} preload="auto" />
       <audio ref={trashRef} src={trashSound} preload="auto" />
       {/* <Logo /> */}
-      {loading && <p>Laddar meddelande...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && <InfoMessage text="laddar..." className="info--normal" />}
+      {error && <InfoMessage text={error} className="info--error" />}
       {deleteFeedback && (
         <div className="delete-feedback">
           <p>Ditt meddelande togs bort</p>

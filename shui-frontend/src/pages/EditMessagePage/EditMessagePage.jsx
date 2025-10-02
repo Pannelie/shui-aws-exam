@@ -8,6 +8,7 @@ import { Logo } from "../../components/logo/Logo";
 import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import { Layout } from "../../components/Layout/Layout";
 import writeSound from "../../assets/sounds/write.mp3";
+import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 
 export const EditMessagePage = () => {
   const params = useParams();
@@ -111,8 +112,8 @@ export const EditMessagePage = () => {
     <Layout>
       <Logo />
       <LogoutButton />
-      {loading && <p>Laddar meddelande...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && <InfoMessage text="laddar..." className="info--normal" />}
+      {error && <InfoMessage text={error} className="info--error" />}
       <MessageView
         mode={mode}
         initialText={existingMessage?.text || ""}

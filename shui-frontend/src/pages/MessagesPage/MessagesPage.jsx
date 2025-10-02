@@ -7,6 +7,7 @@ import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
 import { WriteButton } from "../../components/WriteButton/WriteButton";
 import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
+import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
@@ -44,18 +45,10 @@ export const MessagesPage = () => {
     }
   }, [token, navigate]);
 
-  // Om URL saknar type, sätt default till "all"
-  // useEffect(() => {
-  //   if (!type) {
-  //     navigate("/messages/type/all", { replace: true });
-  //   }
-  // }, [type, navigate]);
-
   useEffect(() => {
     if (type) setView(type);
   }, [type]);
 
-  // Hämta meddelanden baserat på URL-param
   useEffect(() => {
     if (!token) return;
 
@@ -93,10 +86,6 @@ export const MessagesPage = () => {
     fetchMessages();
   }, [view, token, navigate, setUser]);
 
-  // const handleViewChange = (newView) => {
-  //   navigate(`/messages/type/${newView}`);
-  // };
-
   useEffect(() => {
     navigate(`/messages/type/${view}`, { replace: true });
   }, [view, navigate]);
@@ -106,8 +95,8 @@ export const MessagesPage = () => {
       <Header view={view} setView={setView} activeSort={sortOrder} onToggle={setSortOrder} />
       <main className="main">
         <div className="message__list-container">
-          {loading && <p>Laddar meddelanden...</p>}
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {loading && <InfoMessage text="laddar meddelanden..." className="info--normal" />}
+          {error && <InfoMessage text={error} className="info--error" />}
           {!loading && !error && <MessageList messages={sortedMessages} />}
         </div>
       </main>

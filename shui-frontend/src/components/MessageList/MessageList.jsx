@@ -2,6 +2,7 @@ import "./messageList.css";
 import { Message } from "../Message/Message";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
+import { InfoMessage } from "../InfoMessage/InfoMessage";
 
 export const MessageList = ({ messages }) => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ export const MessageList = ({ messages }) => {
 
   const rotation = Math.random() * 15 - 5;
   if (!messages || messages.length === 0) {
-    return <p className="message__no-messages">Inga meddelanden att visa.</p>;
+    return <InfoMessage text="Inga meddelanden att visa" className="info--normal" />;
   }
   return (
     <ul className="message__list">
