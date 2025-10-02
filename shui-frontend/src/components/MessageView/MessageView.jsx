@@ -1,10 +1,20 @@
 import "./messageView.css";
 import { Message } from "../Message/Message";
 import { Button } from "../Button/Button";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 //lägg till onDelete,
-export const MessageView = ({ mode = "view", initialText = "", author, onEdit, onDelete, onBack, onSave, isDeleting = false }) => {
+export const MessageView = ({
+  mode = "view",
+  initialText = "",
+  author,
+  onEdit,
+  onDelete,
+  onBack,
+  onSave,
+  isDeleting = false,
+  onAuthorClick,
+}) => {
   const [text, setText] = useState(initialText);
 
   useEffect(() => {
@@ -19,7 +29,9 @@ export const MessageView = ({ mode = "view", initialText = "", author, onEdit, o
       <div className="message-actions">
         {mode === "view" && (
           <div className="message__title-box">
-            <p className="message__title">{author}</p>
+            <p className="message__title clickable" onClick={onAuthorClick}>
+              {author}
+            </p>
           </div>
         )}
         {mode === "view" && onEdit && <Button onClick={onEdit} text="Redigera" />}
