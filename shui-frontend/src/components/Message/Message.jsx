@@ -27,7 +27,7 @@ export const Message = ({ text, mode = "view", onChange, className = "", rotatio
         }}
       >
         {/* Bara ett cirkulärt huvud */}
-        <circle cx="12" cy="12" r="8" fill="var(--pin-color)" />
+        <circle cx="12" cy="12" r="8" fill="var(--main-red-color)" />
       </svg>
       <div className="message__content">
         {mode === "view" && <p className="message__text">{displayText}</p>}
