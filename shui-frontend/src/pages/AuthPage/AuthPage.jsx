@@ -7,6 +7,7 @@ import { BottomImage } from "../../components/BottomImage/BottomImage";
 import { LoginForm } from "../../components/LoginForm/LoginForm";
 import { RegisterForm } from "../../components/RegisterForm/RegisterForm";
 import { Button } from "../../components/Button/Button";
+import { Message } from "../../components/Message/Message";
 
 export const AuthPage = ({ type }) => {
   const navigate = useNavigate();
@@ -36,18 +37,23 @@ export const AuthPage = ({ type }) => {
 
   return (
     <>
-      <Layout>
+      <Layout className="page--padding">
         <Logo />
-        {successMsg && <div className="message success">{successMsg}</div>}
+        {successMsg && <Message className="message--highlight" text={successMsg} />}
         {showForm && (
           <>
             {isLogin ? <LoginForm /> : <RegisterForm />}
-            <section className={`${type}__button-section`}>
-              <Button className="button" onClick={() => navigate("/")} text="Tillbaka" />
+            <section className="button-section">
               {isLogin ? (
-                <Button className="button" onClick={() => navigate("/register")} text="Skapa användare" />
+                <>
+                  <Button className="button button--small" onClick={() => navigate("/register")} text="Skapa användare" />
+                  <p className="button__info-text">Har du inte ett konto än?</p>
+                </>
               ) : (
-                <Button className="button" onClick={() => navigate("/login")} text="Logga in" />
+                <>
+                  <Button className="button button--small" onClick={() => navigate("/login")} text="Logga in" />
+                  <p className="button__info-text">Har du redan ett konto?</p>
+                </>
               )}
             </section>
           </>

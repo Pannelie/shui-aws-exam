@@ -57,7 +57,7 @@ export const LoginForm = () => {
         <input className="form__input" type="password" ref={passwordRef} placeholder="Lösenord" />
       </label>
       <Button className="form__button" onClick={loginUser} text={"Logga in"} />
-      {error && <Message text={error} className="message--small message--form-error" />}
+      {error && <Message text={error} className="message--highlight message__form-error" />}
     </form>
   );
 };

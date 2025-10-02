@@ -61,7 +61,7 @@ export const RegisterForm = () => {
         <input className="form__input" type="password" ref={passwordRef} placeholder="Lösenord" />
       </label>
       <Button className="form__button" onClick={registerUser} text={"Registrera"} />
-      {error && <Message text={error} className="message--form-error" />}
+      {error && <Message text={error} className="message--highlight message__form-error" />}
     </form>
   );
 };
