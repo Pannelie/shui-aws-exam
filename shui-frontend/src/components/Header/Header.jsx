@@ -1,3 +1,4 @@
+import { useUserStore } from "../../stores/useUserStore";
 import { Logo } from "../logo/Logo";
 import { LogoutButton } from "../LogoutButton/LogoutButton";
 import { MessageSwitch } from "../MessageSwitch/MessageSwitch";
@@ -13,10 +14,14 @@ export const Header = ({
   onClearUserFilter,
   setActiveUserFilter,
 }) => {
+  const { user } = useUserStore();
   return (
     <section className={`header ${showSwitch ? "header--full" : "header--compact"}`}>
       <Logo />
-      <LogoutButton />
+      <div className="header__top">
+        <p className="header__user">{user.username}</p>
+        <LogoutButton />
+      </div>
       {showSwitch && view && setView && (
         <MessageSwitch
           view={view}

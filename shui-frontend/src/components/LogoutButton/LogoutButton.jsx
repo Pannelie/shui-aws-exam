@@ -19,8 +19,10 @@ export const LogoutButton = () => {
     navigate("/", { replace: true });
   };
   return (
-    <button onClick={onClick} className="logout-button">
-      <FontAwesomeIcon icon={faRightFromBracket} className="logout-icon" />
-    </button>
+    <>
+      <button onClick={onClick} className="logout-button">
+        <FontAwesomeIcon icon={faRightFromBracket} className="logout-icon" />
+      </button>
+    </>
   );
 };
