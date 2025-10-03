@@ -9,6 +9,8 @@ import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
+import { filterMessagesByUser, sortedMessages } from "../../utils/messages";
+import { fetchMessagesUtil } from "../../utils/fetchMessagesUtil";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
@@ -27,22 +29,9 @@ export const MessagesPage = () => {
 
   const token = user?.token || localStorage.getItem("token");
 
-  const sortedMessages = [...messages].sort((a, b) => {
-    switch (sortOrder) {
-      case "date_asc":
-        return new Date(a.createdAtUTC) - new Date(b.createdAtUTC);
-      case "date_desc":
-        return new Date(b.createdAtUTC) - new Date(a.createdAtUTC);
-      case "sender_asc":
-        return a.username.localeCompare(b.username);
-      case "sender_desc":
-        return b.username.localeCompare(a.username);
-      default:
-        return 0;
-    }
-  });
+  const sortedMessage = sortedMessages(messages, sortOrder);
 
-  const filteredMessages = activeUserFilter ? sortedMessages.filter((msg) => msg.username === activeUserFilter) : sortedMessages;
+  const filteredMessages = filterMessagesByUser(sortedMessage, activeUserFilter);
 
   useEffect(() => {
     if (!token) {
@@ -60,40 +49,27 @@ export const MessagesPage = () => {
     const fetchMessages = async () => {
       setLoading(true);
       setError("");
-      try {
-        let result;
-        if (view === "all") {
-          result = await getMessagesApi(token);
-          console.log("All messages result:", result); // 🔹 logga all data
-        } else {
-          const username = view === "mine" ? user?.username?.toLowerCase() : view?.toLowerCase();
+      const result = await fetchMessagesUtil({ view, token, user });
 
-          result = await getMessagesByUserApi(token, username);
-        }
-
-        if (result.status === 404) {
-          setError(`Användaren "${view}" hittades inte`);
-          setMessages([]);
-          setLoading(false);
-          return;
-        }
-
-        if (!result.success) {
-          if (result.message === "Invalid token") {
-            setUser(null);
-            localStorage.removeItem("token");
-            localStorage.removeItem("role");
-            navigate("/login", { replace: true });
-            return; // Sluta fortsätta med meddelanden
-          }
-          setError(result.message);
-          setMessages([]);
-        } else {
-          setMessages(result.data.messages || []); //behålla .messages?
-        }
-      } catch (error) {
-        setError("Något gick fel vid hämtning av meddelanden");
+      if (result.status === 404) {
+        setError(`Användaren "${view}" hittades inte`);
         setMessages([]);
+        setLoading(false);
+        return;
+      }
+
+      if (!result.success) {
+        if (result.message === "Invalid token") {
+          setUser(null);
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+          navigate("/login", { replace: true });
+          return; // Sluta fortsätta med meddelanden
+        }
+        setError(result.message);
+        setMessages([]);
+      } else {
+        setMessages(result.data.messages || []); //behålla .messages?
       }
       setLoading(false);
     };
