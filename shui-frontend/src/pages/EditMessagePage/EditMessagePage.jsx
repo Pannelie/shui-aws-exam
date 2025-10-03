@@ -9,6 +9,7 @@ import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import { Layout } from "../../components/Layout/Layout";
 import writeSound from "../../assets/sounds/write.mp3";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
+import { useAudio } from "../../hooks/useAudio";
 
 export const EditMessagePage = () => {
   const params = useParams();
@@ -17,7 +18,7 @@ export const EditMessagePage = () => {
   const { user } = useUserStore();
 
   console.log("Ljudfil URL:", writeSound);
-  const writeRef = useRef(null);
+  const [writeRef, playWrite] = useAudio(writeSound, { startTime: 0.5, endTime: null });
 
   const [existingMessage, setExistingMessage] = useState(location.state?.message || null);
   const [mode, setMode] = useState(location.state?.mode || "write");
@@ -32,14 +33,8 @@ export const EditMessagePage = () => {
   console.log(`this is isEdit: ${isEdit}`);
 
   useEffect(() => {
-    const write = new Audio(writeSound);
-    write.preload = "auto";
-    writeRef.current = write;
+    if (!token) return;
 
-    write.load();
-  }, []);
-
-  useEffect(() => {
     const fetchMessage = async () => {
       if (isEdit && !existingMessage && params.messageId) {
         setLoading(true);
@@ -74,29 +69,11 @@ export const EditMessagePage = () => {
       }
 
       if (result.success) {
-        if (writeRef.current) {
-          writeRef.current.currentTime = 0;
-          writeRef.current
-            .play()
-            .then(() => {
-              writeRef.current.onended = () => {
-                navigate(redirectUrl, {
-                  state: mode === "edit" ? { message: { ...existingMessage, text: newText } } : undefined,
-                });
-              };
-            })
-            .catch((error) => {
-              console.warn("Ljudet kunde inte spelas:", error);
-              // Fallback: Navigera direkt om ljud inte kunde spelas
-              navigate(redirectUrl, {
-                state: mode === "edit" ? { message: { ...existingMessage, text: newText } } : undefined,
-              });
-            });
-        } else {
+        playWrite(() => {
           navigate(redirectUrl, {
             state: mode === "edit" ? { message: { ...existingMessage, text: newText } } : undefined,
           });
-        }
+        });
       } else {
         setError(result.message);
       }
