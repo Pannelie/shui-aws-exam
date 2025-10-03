@@ -78,9 +78,7 @@ export const SingleMessagePage = () => {
         deleteMessageByIdApi(messageId, token).then((result) => {
           if (result.success) {
             setTimeout(() => {
-              navigate(`/messages/type/${user.username}`, {
-                state: { userFilter: user.username }, // ⚡ sätt filter
-              });
+              navigate(`/messages/type/${user.username}`, { replace: true });
             }, 1400);
           } else {
             setError(result.message);

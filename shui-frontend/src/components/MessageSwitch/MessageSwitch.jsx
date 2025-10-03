@@ -28,13 +28,13 @@ export const MessageSwitch = ({
     if (newView === view) return;
 
     playPageFlip();
-
     setSwitching(true);
     setView(newView);
 
     //klickar jag på att se mina egna messages
     // så nollställs sorteringen för att visa annan användares messages
     onClearUserFilter?.();
+    onToggle?.(null);
     setTimeout(() => setSwitching(false), 300); // matcha animationstid
   };
 
@@ -48,7 +48,9 @@ export const MessageSwitch = ({
   return (
     <div className="segment-container">
       <div className="segment-paper">
-        <div className={`slider ${view === user?.username?.toLowerCase() ? "right" : "left"} ${switching ? "switching" : ""}`}></div>
+        <div
+          className={`slider ${view?.toLowerCase() === user?.username?.toLowerCase() ? "right" : "left"} ${switching ? "switching" : ""}`}
+        ></div>
         <button className="segment-btn" onClick={() => handleClick("all")}>
           <FontAwesomeIcon icon={faUsers} className="user-icon" />
         </button>
@@ -63,7 +65,7 @@ export const MessageSwitch = ({
           <SortGroup
             arialabel="Avsändare"
             type="user"
-            activeSort={activeSort}
+            activeSort={null}
             activeUserFilter={activeUserFilter}
             onToggle={(val) => {
               if (!val) {
