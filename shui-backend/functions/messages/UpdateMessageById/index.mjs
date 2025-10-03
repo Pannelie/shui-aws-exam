@@ -13,7 +13,7 @@ export const handler = middy(async (event) => {
   const { text } = event.body;
 
   if (!messageId) {
-    throwError("Missing messageId in path parameters", 400); //400 = bad request
+    throwError("Missing messageId in path parameters", 400); //= bad request
   }
 
   const message = await getMessageById(messageId);

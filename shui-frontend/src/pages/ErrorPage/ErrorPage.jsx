@@ -2,6 +2,7 @@ import "./errorPage.css";
 import { Layout } from "../../components/Layout/Layout";
 import { useRouteError } from "react-router-dom";
 import { Logo } from "../../components/logo/Logo";
+import { OceanImage } from "../../components/OceanImage/oceanImage";
 
 export const ErrorPage = () => {
   const error = useRouteError();
@@ -21,7 +22,6 @@ export const ErrorPage = () => {
     );
   }
 
-  // Annat fel (t.ex. kastat i loader eller komponent)
   const message = error?.statusText || error?.message || "Ett okänt fel uppstod";
 
   return (
@@ -34,6 +34,8 @@ export const ErrorPage = () => {
           Gå tillbaka till startsidan
         </a>
       </section>
+      <div className="ocean-blue"></div>
+      <OceanImage className="ocean-image--bottom" />
     </Layout>
   );
 };

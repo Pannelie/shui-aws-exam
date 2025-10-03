@@ -32,7 +32,7 @@ functions:
     handler: functions/messages/GetMessages/index.handler
     events:
       - httpApi:
-          path: /api/messages/type/{type} #ALL or MINE
+          path: /api/messages/type/{type} #all or username
           method: GET
   GetMessageById:
     handler: functions/messages/GetMessageById/index.handler

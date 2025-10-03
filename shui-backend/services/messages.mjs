@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { generateId } from "../utils/generateId.mjs";
 import { docClient } from "./client.mjs";
 import { throwError } from "../responses/throwError.mjs";
-import { DeleteCommand, GetCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { DeleteCommand, PutCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
 export const getMessages = async () => {
   const command = new QueryCommand({
@@ -23,7 +23,7 @@ export const getMessages = async () => {
 };
 
 export const getMessagesByUser = async (username) => {
-  if (!username) return []; // här säkrar vi så att undefined inte kraschar
+  if (!username) return []; // kontroll så att undefined inte kraschar
   const usernameLower = username.toLowerCase();
   console.log("Querying messages for username:", username);
   const command = new QueryCommand({
@@ -55,7 +55,7 @@ export const getMessageById = async (messageId) => {
     KeyConditionExpression: "GSI2PK = :pk AND GSI2SK = :sk",
     ExpressionAttributeValues: {
       ":pk": `MESSAGE#${messageId}`,
-      ":sk": "MESSAGE", // baserat på din GSI2SK
+      ":sk": "MESSAGE", // baserat på GSI2SK
     },
     Limit: 1,
   });
@@ -76,6 +76,7 @@ export const getMessageById = async (messageId) => {
 export const addMessage = async ({ username, text }) => {
   const usernameLower = username.toLowerCase();
   const messageId = generateId();
+
   const nowStockholm = DateTime.now().setZone("Europe/Stockholm");
   const createdAt = nowStockholm.toISO(); // ISO-sträng med svensk tid
 

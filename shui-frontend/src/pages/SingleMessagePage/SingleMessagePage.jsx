@@ -1,15 +1,16 @@
 import "./singleMessagePage.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { getMessageByIdApi, deleteMessageByIdApi } from "../../api/messages";
 import { useUserStore } from "../../stores/useUserStore";
 import { MessageView } from "../../components/MessageView/MessageView";
 import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
-import crumpleSound from "../../assets/sounds/crumple-paper.mp3";
-import trashSound from "../../assets/sounds/paper-bin-toss.mp3";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 import { useAudio } from "../../hooks/useAudio";
+import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
+import crumpleSound from "../../assets/sounds/crumple-paper.mp3";
+import trashSound from "../../assets/sounds/paper-bin-toss.mp3";
 
 export const SingleMessagePage = () => {
   const { messageId } = useParams();
@@ -31,16 +32,6 @@ export const SingleMessagePage = () => {
   const [error, setError] = useState("");
 
   const isOwner = message && user?.username === message.username;
-
-  useEffect(() => {
-    const crumple = new Audio(crumpleSound);
-    crumple.preload = "auto";
-    crumpleRef.current = crumple;
-
-    const trash = new Audio(trashSound);
-    trash.preload = "auto";
-    trashRef.current = trash;
-  }, []);
 
   useEffect(() => {
     if (!token) {
@@ -65,7 +56,6 @@ export const SingleMessagePage = () => {
 
   useEffect(() => {
     if (!loading && !message) {
-      // Om man inte hittar meddelandet, skicka tillbaka
       navigate("/messages/type/all", { replace: true });
     }
   }, [loading, message, navigate]);
@@ -73,7 +63,7 @@ export const SingleMessagePage = () => {
   const handleEdit = () => {
     navigate("/messages/write", { state: { message, mode: "edit" } });
   };
-  // ----------------------------TEST---------------------
+
   const handleAuthorClick = () => {
     navigate(`/messages/type/${message.username}`, {
       state: {
@@ -83,11 +73,9 @@ export const SingleMessagePage = () => {
   };
 
   const handleDelete = () => {
-    if (!messageId || isDeleting) return; // förhindra dubbelklick
+    if (!messageId || isDeleting) return;
     setIsDeleting(true);
 
-    // Starta animation (lägg till en CSS-klass som skrynklas ihop)
-    // Antag att du har t.ex. .message--delete-animation som animerar ihop meddelandet
     const messageElement = document.querySelector(".message--large");
     if (messageElement) messageElement.classList.add("message--delete-animation");
 
@@ -102,7 +90,6 @@ export const SingleMessagePage = () => {
         // Gör API-anropet parallellt med trash-ljudet
         deleteMessageByIdApi(messageId, token).then((result) => {
           if (result.success) {
-            // Navigation efter feedback-tid
             setTimeout(() => {
               navigate(`/messages/type/${user.username}`, {
                 state: { userFilter: user.username }, // ⚡ sätt filter
@@ -137,7 +124,7 @@ export const SingleMessagePage = () => {
           author={message.username}
           onEdit={isOwner ? handleEdit : null}
           onDelete={isOwner ? handleDelete : null}
-          onBack={handleBack} // alltid visa tillbaka-knapp
+          onBack={handleBack}
           isDeleting={isDeleting}
           onAuthorClick={handleAuthorClick}
         />

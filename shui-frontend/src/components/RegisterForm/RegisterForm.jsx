@@ -32,7 +32,7 @@ export const RegisterForm = () => {
         password: passwordRef.current.value,
       });
       if (result.success) {
-        // Rensa formulär
+        // Rensar mitt formulär
         usernameRef.current.value = "";
         emailRef.current.value = "";
         passwordRef.current.value = "";
@@ -43,8 +43,8 @@ export const RegisterForm = () => {
       } else {
         setError(result.message || "Registreringen misslyckades");
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       setError("Något gick fel vid registreringen");
     }
   };

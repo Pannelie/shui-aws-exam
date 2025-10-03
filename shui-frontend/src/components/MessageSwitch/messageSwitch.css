@@ -1,16 +1,13 @@
 .segment-container {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* lite mellanrum mellan switch och sort */
+  gap: 10px;
   width: 100%;
   max-width: 300px;
   margin: 0 auto;
 }
 .segment-paper {
-  /* avstånd från toppen */
-  /* left: 50%;
-  transform: translateX(-50%); */
-  z-index: 100; /* ovanpå allt annat */
+  z-index: 100;
   display: flex;
   width: 100%;
   max-width: 300px;
@@ -19,15 +16,6 @@
   margin: 0 auto 0;
 
   position: relative;
-  /* position: sticky;
-  display: flex;
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-  /* background-color: var(--main-red-color) / var(--pin-opacity); */
-  /*border-radius: 5px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  overflow: hidden; */
 }
 
 .segment-btn {
@@ -56,7 +44,7 @@
   bottom: 0;
   width: 50%;
   background: var(--main-red-color);
-  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* “springy” flip effect */
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   z-index: 1;
 }
 

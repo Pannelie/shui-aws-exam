@@ -1,8 +1,8 @@
 .bottom-image {
-  position: absolute; /* eller fixed beroende på effekt */
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: auto;
-  z-index: -1; /*så att texten ligger ovanpå */
+  z-index: -1;
 }

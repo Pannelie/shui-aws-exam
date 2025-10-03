@@ -1,8 +1,6 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import { HomePage } from "../pages/HomePage/HomePage";
-import { LoginPage } from "../pages/LoginPage/LoginPage";
 import { MessagesPage } from "../pages/MessagesPage/MessagesPage";
-import { RegisterPage } from "../pages/RegisterPage/RegisterPage";
 import { AuthPage } from "../pages/AuthPage/AuthPage";
 import { EditMessagePage } from "../pages/EditMessagePage/EditMessagePage";
 import { SingleMessagePage } from "../pages/SingleMessagePage/SingleMessagePage";
@@ -18,8 +16,6 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/login", element: <AuthPage type="login" /> },
       { path: "/register", element: <AuthPage type="register" /> },
-      // { path: "/login", element: <LoginPage /> },
-      // { path: "/register", element: <RegisterPage /> },
       { path: "/messages", element: <MessagesPage /> },
       { path: "/messages/type/:type", element: <MessagesPage /> },
       { path: "/messages/id/:messageId", element: <SingleMessagePage /> },

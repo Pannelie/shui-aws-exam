@@ -7,7 +7,6 @@ import { InfoMessage } from "../InfoMessage/InfoMessage";
 export const MessageList = ({ messages, setActiveUserFilter }) => {
   const navigate = useNavigate();
   const { user } = useUserStore();
-  // console.log("user from store:", user);
 
   const rotation = Math.random() * 15 - 5;
   if (!messages || messages.length === 0) {

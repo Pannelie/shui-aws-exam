@@ -12,5 +12,5 @@ export const userSchema = Joi.object({
     .required(),
   email: Joi.string().email().required(),
   role: Joi.string().forbidden(),
-  //jag vill inte att användaren själv väljer role
 });
+//jag vill inte att användaren själv väljer role

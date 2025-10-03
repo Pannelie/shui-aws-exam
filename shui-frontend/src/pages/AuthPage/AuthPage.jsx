@@ -1,5 +1,5 @@
-import { useLocation, useNavigate } from "react-router-dom";
 import "./authPage.css";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Layout } from "../../components/Layout/Layout";
 import { Logo } from "../../components/logo/Logo";
@@ -15,7 +15,6 @@ export const AuthPage = ({ type }) => {
   const [successMsg, setSuccessMsg] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  //true / false
   const isLogin = type === "login";
 
   useEffect(() => {
@@ -23,15 +22,14 @@ export const AuthPage = ({ type }) => {
       setSuccessMsg(location.state.message);
       setShowForm(false);
 
-      // Rensa meddelandet efter 3 sekunder (frivilligt)
       const timer = setTimeout(() => {
         setSuccessMsg("");
         setShowForm(true);
-      }, 3000);
+      }, 1000);
 
       return () => clearTimeout(timer);
     } else {
-      setShowForm(true); // visa direkt om inget meddelande finns
+      setShowForm(true);
     }
   }, [location, isLogin]);
 

@@ -19,7 +19,7 @@
   font-size: 0.9rem;
   line-height: 1; /* eller samma som font-size */
   display: inline-block; /* nödvändigt för transform */
-  transition: transform 0.3s ease-in-out; /* smidig animation */
+  transition: transform 0.3s ease-in-out;
   transform-origin: center;
 }
 

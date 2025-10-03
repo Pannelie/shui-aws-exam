@@ -1,6 +1,6 @@
 .delete-feedback {
   position: fixed;
-  top: -50px; /* startar utanför toppen */
+  top: -50px;
   left: 50%;
   transform: translateX(-50%) rotate(0deg) scale(1);
   font-size: 1.2rem;
@@ -18,17 +18,17 @@
 @keyframes throwFeedback {
   0% {
     opacity: 0;
-    top: -50px; /* utanför viewport */
+    top: -50px;
     transform: translateX(-50%) rotate(-15deg) scale(0.8);
   }
   60% {
     opacity: 1;
-    top: 25vh; /* mitt mellan Header och MessageView */
+    top: 25vh;
     transform: translateX(-50%) rotate(10deg) scale(1.1);
   }
   100% {
     opacity: 1;
-    top: 28vh; /* “landningsposition” */
+    top: 28vh;
     transform: translateX(-50%) rotate(0deg) scale(1);
   }
 }
