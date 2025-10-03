@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react";
 
+//hook eftersom jag vill spela det efter specifika händelser,
+// kopplad till komponenters livscyklar.
+// Kan använda useEffect, useRef inuti
+
 export const useAudio = (src, options = {}) => {
   const { startTime = 0 } = options;
   const audioRef = useRef(null);
