@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { generateId } from "../utils/generateId.mjs";
 import { docClient } from "./client.mjs";
 import { throwError } from "../responses/throwError.mjs";
@@ -92,7 +93,8 @@ export const getMessageById = async (messageId) => {
 
 export const addMessage = async ({ username, text }) => {
   const messageId = generateId();
-  const createdAt = new Date().toISOString();
+  const nowStockholm = DateTime.now().setZone("Europe/Stockholm");
+  const createdAt = nowStockholm.toISO(); // ISO-sträng med svensk tid
 
   const item = {
     PK: "MESSAGE",
