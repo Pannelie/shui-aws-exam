@@ -3,6 +3,7 @@ import { Button } from "../Button/Button";
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Message } from "../Message/Message";
+import { validateUser } from "../../utils/validateUser";
 import "./registerForm.css";
 
 // useRef är som en låda där du kan spara något mellan renderingar utan att React bryr sig om det.
@@ -11,6 +12,7 @@ export const RegisterForm = () => {
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
@@ -25,6 +27,20 @@ export const RegisterForm = () => {
     e.preventDefault();
     setError("");
 
+    const validation = validateUser({
+      username: usernameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      confirmPassword: confirmPasswordRef.current.value,
+    });
+
+    if (!validation.valid) {
+      setError(validation.message);
+      passwordRef.current.value = "";
+      confirmPasswordRef.current.value = "";
+      return;
+    }
+
     try {
       const result = await registerApi({
         username: usernameRef.current.value,
@@ -36,9 +52,9 @@ export const RegisterForm = () => {
         usernameRef.current.value = "";
         emailRef.current.value = "";
         passwordRef.current.value = "";
-
+        confirmPasswordRef.current.value = "";
         navigate("/login", {
-          state: { message: "Användare skapad! Du kan nu logga in." },
+          state: { message: "Användare skapad!\nDu kan nu logga in." },
         });
       } else {
         setError(result.message || "Registreringen misslyckades");
@@ -59,6 +75,9 @@ export const RegisterForm = () => {
       </label>
       <label className="form__label">
         <input className="form__input" type="password" ref={passwordRef} placeholder="Lösenord" />
+      </label>
+      <label className="form__label">
+        <input className="form__input" type="password" ref={confirmPasswordRef} placeholder="Bekräfta lösenord" />
       </label>
       <Button className="form__button" onClick={registerUser} text={"Registrera"} />
       {error && <Message text={error} className="message--highlight message__form-error" />}
