@@ -1,15 +1,14 @@
 import "./messagesPage.css";
 import { MessageList } from "../../components/MessageList/MessageList";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
-import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
 import { WriteButton } from "../../components/WriteButton/WriteButton";
 import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
-import { filterMessagesByUser, sortedMessages } from "../../utils/messages";
+import { filterMessagesByUser, sortMessages } from "../../utils/messages";
 import { fetchMessagesUtil } from "../../utils/fetchMessagesUtil";
 
 export const MessagesPage = () => {
@@ -29,7 +28,7 @@ export const MessagesPage = () => {
 
   const token = user?.token || localStorage.getItem("token");
 
-  const sortedMessage = sortedMessages(messages, sortOrder);
+  const sortedMessage = sortMessages(messages, sortOrder);
 
   const filteredMessages = filterMessagesByUser(sortedMessage, activeUserFilter);
 
