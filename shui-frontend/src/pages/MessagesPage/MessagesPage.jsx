@@ -17,6 +17,7 @@ export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const { pathname } = location;
   const { type } = useParams();
 
   const [view, setView] = useState(type || "all");
@@ -39,6 +40,25 @@ export const MessagesPage = () => {
   useEffect(() => {
     if (type) setView(type);
   }, [type]);
+
+  // useEffect(() => {
+  //   const parts = pathname.split("/");
+  //   const type = parts[parts.length - 1]; // "all" eller username
+  //   setView(type);
+  // }, [pathname, setView]);
+
+  useEffect(() => {
+    const parts = pathname.split("/");
+    const typeFromPath = parts[parts.length - 1]; // "all" eller username
+    setView(typeFromPath.toLowerCase());
+
+    // ⚡ Bara aktivera filter om det är någon annan användare än dig själv
+    if (typeFromPath.toLowerCase() === user?.username?.toLowerCase()) {
+      setActiveUserFilter(null);
+    } else {
+      setActiveUserFilter(typeFromPath);
+    }
+  }, [pathname, user]);
 
   useEffect(() => {
     if (!token) return;
@@ -75,14 +95,21 @@ export const MessagesPage = () => {
   }, [view, token, navigate, user]);
 
   useEffect(() => {
-    navigate(`/messages/type/${view}`, { replace: true });
-  }, [view, navigate]);
-
-  useEffect(() => {
-    if (location.state?.userFilter) {
-      setActiveUserFilter(location.state.userFilter);
+    if (activeUserFilter) {
+      // När du filtrerar på en annan användare, nollställ sortOrder
+      setSortOrder(null);
     }
-  }, [location.state?.userFilter]);
+  }, [activeUserFilter]);
+
+  // useEffect(() => {
+  //   navigate(`/messages/type/${view}`, { replace: true });
+  // }, [view, navigate]);
+
+  // useEffect(() => {
+  //   if (location.state?.userFilter) {
+  //     setActiveUserFilter(location.state.userFilter);
+  //   }
+  // }, [location.state?.userFilter]);
   return (
     <Layout>
       <Header
