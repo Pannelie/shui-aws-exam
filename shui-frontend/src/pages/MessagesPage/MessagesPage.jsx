@@ -1,9 +1,8 @@
 import "./messagesPage.css";
 import { MessageList } from "../../components/MessageList/MessageList";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useUserStore } from "../../stores/useUserStore";
-import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
 import { WriteButton } from "../../components/WriteButton/WriteButton";
 import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
