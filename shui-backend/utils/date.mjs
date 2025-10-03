@@ -1,20 +1,9 @@
+import { DateTime } from "luxon";
+
 export const formatDateForResponse = (date) => {
   if (!date) return null;
-  const d = new Date(date);
 
-  const datePart = d.toLocaleDateString("sv-SE", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+  const dt = DateTime.fromISO(date, { zone: "Europe/Stockholm" });
 
-  const timePart = d.toLocaleTimeString("sv-SE", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false, // 24-timmarsformat
-  });
-
-  return `${datePart} ${timePart}`;
+  return dt.toFormat("yyyy-MM-dd HH:mm"); // Exempel: "2025-10-03 11:10"
 };
-
-// gör om till svensk tid och enkelt klockslag

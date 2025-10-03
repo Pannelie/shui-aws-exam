@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { generateId } from "../utils/generateId.mjs";
 import { docClient } from "./client.mjs";
 import { throwError } from "../responses/throwError.mjs";
@@ -92,7 +93,8 @@ export const getMessageById = async (messageId) => {
 
 export const addMessage = async ({ username, text }) => {
   const messageId = generateId();
-  const createdAt = new Date().toISOString();
+  const nowStockholm = DateTime.now().setZone("Europe/Stockholm");
+  const createdAt = nowStockholm.toISO(); // ISO-sträng med svensk tid
 
   const item = {
     PK: "MESSAGE",
@@ -145,18 +147,23 @@ export const updateMessage = async (messageId, updateData) => {
     if (!message.PK || !message.SK) throwError("Missing PK or SK for update", 500);
     console.log("Updating message with key:", { PK: message.PK, SK: message.SK });
 
+    const nowStockholm = DateTime.now().setZone("Europe/Stockholm");
+    updateData.createdAt = nowStockholm.toISO();
+
     const updateCommand = new UpdateCommand({
       TableName: "shui-table",
       Key: {
         PK: message.PK,
         SK: message.SK,
       },
-      UpdateExpression: "SET #text = :newText",
+      UpdateExpression: "SET #text = :newText, #createdAt = :newCreatedAt",
       ExpressionAttributeNames: {
         "#text": "text",
+        "#createdAt": "createdAt",
       },
       ExpressionAttributeValues: {
         ":newText": updateData.text,
+        ":newCreatedAt": updateData.createdAt,
       },
       ReturnValues: "ALL_NEW",
     });

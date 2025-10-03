@@ -14,4 +14,5 @@ export const formatMessageResponse = (item) => ({
   text: item.text,
   messageId: item.messageId,
   createdAt: formatDateForResponse(item.createdAt),
+  createdAtUTC: item.createdAt, //innehåller mikrosekunder, bra för specifik sortering
 });

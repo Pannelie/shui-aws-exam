@@ -29,9 +29,9 @@ export const MessagesPage = () => {
   const sortedMessages = [...messages].sort((a, b) => {
     switch (sortOrder) {
       case "date_asc":
-        return new Date(a.createdAt) - new Date(b.createdAt);
+        return new Date(a.createdAtUTC) - new Date(b.createdAtUTC);
       case "date_desc":
-        return new Date(b.createdAt) - new Date(a.createdAt);
+        return new Date(b.createdAtUTC) - new Date(a.createdAtUTC);
       case "sender_asc":
         return a.username.localeCompare(b.username);
       case "sender_desc":
