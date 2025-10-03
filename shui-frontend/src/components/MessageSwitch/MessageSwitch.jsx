@@ -5,6 +5,7 @@ import { faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import pageFlipSound from "../../assets/sounds/page-flip-sound.mp3";
 import { SortGroup } from "../SortGroup/SortGroup";
 import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
+import { useAudio } from "../../hooks/useAudio";
 
 export const MessageSwitch = ({
   view,
@@ -17,29 +18,16 @@ export const MessageSwitch = ({
   setActiveUserFilter,
 }) => {
   const [switching, setSwitching] = useState(false);
-  const audioRef = useRef(null);
 
+  const [pageFlipRef, playPageFlip] = useAudio(pageFlipSound);
+
+  //onödig token??
   const token = localStorage.getItem("token");
-  //förladdar ljudeffekt
-  useEffect(() => {
-    const audio = new Audio(pageFlipSound);
-    audio.preload = "auto";
-    audioRef.current = audio;
-
-    audio.load();
-  }, []);
 
   const handleClick = (newView) => {
     if (newView === view) return;
 
-    // Spela upp ljud direkt från ref
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch((error) => {
-        // Vissa webbläsare kräver interaktion, så hantera eventuella fel tyst
-        console.warn("Ljudet kunde inte spelas:", error);
-      });
-    }
+    playPageFlip();
 
     setSwitching(true);
     setView(newView);

@@ -11,18 +11,20 @@ import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import crumpleSound from "../../assets/sounds/crumple-paper.mp3";
 import trashSound from "../../assets/sounds/paper-bin-toss.mp3";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
+import { useAudio } from "../../hooks/useAudio";
 
 export const SingleMessagePage = () => {
   const { messageId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  const { user } = useUserStore();
 
+  const { user } = useUserStore();
   const token = user?.token || localStorage.getItem("token");
 
-  const crumpleRef = useRef(null);
-  const trashRef = useRef(null);
+  const [crumpleRef, playCrumple] = useAudio(crumpleSound);
+  const [trashRef, playTrash] = useAudio(trashSound);
+
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteFeedback, setDeleteFeedback] = useState(false);
 
@@ -92,34 +94,41 @@ export const SingleMessagePage = () => {
     if (messageElement) messageElement.classList.add("message--delete-animation");
 
     // Spela crumple-ljud
-    if (crumpleRef.current) {
-      crumpleRef.current.currentTime = 0;
-      crumpleRef.current.play().catch(() => {});
-      crumpleRef.current.onended = () => {
-        // När crumple är klart, spela trash-ljud
-        if (trashRef.current) {
-          trashRef.current.currentTime = 0;
-          trashRef.current.play().catch(() => {});
-        }
-      };
-    }
+    // if (crumpleRef.current) {
+    //   crumpleRef.current.currentTime = 0;
+    //   crumpleRef.current.play().catch(() => {});
+    //   crumpleRef.current.onended = () => {
+    // När crumple är klart, spela trash-ljud
+    // if (trashRef.current) {
+    //   trashRef.current.currentTime = 0;
+    //   trashRef.current.play().catch(() => {});
+    // }
+    //   };
+    // }
 
     // Vänta animationstid innan API-call
-    const totalAnimationDuration = 900; // matcha din CSS-animationstid i ms
-    setTimeout(() => {
-      deleteMessageByIdApi(messageId, token).then((result) => {
-        if (result.success) {
-          setDeleteFeedback(true);
-          const feedbackDisplayTime = 2500;
-          // Visa feedback i några sekunder innan navigering
-          setTimeout(() => navigate("/messages/type/mine"), feedbackDisplayTime);
-        } else {
-          setError(result.message);
-        }
-      });
-    }, totalAnimationDuration);
-  };
+    // const totalAnimationDuration = 900; // matcha din CSS-animationstid i ms
+    // setTimeout(() => {
+    playCrumple(() => {
+      // När crumple är klart, starta trash-ljud
+      if (trashRef.current) {
+        // Visa feedback samtidigt som trash-ljudet startar
+        setDeleteFeedback(true);
 
+        playTrash();
+
+        // Gör API-anropet parallellt med trash-ljudet
+        deleteMessageByIdApi(messageId, token).then((result) => {
+          if (result.success) {
+            // Navigation efter feedback-tid
+            setTimeout(() => navigate("/messages/type/mine"), 1400);
+          } else {
+            setError(result.message);
+          }
+        });
+      }
+    });
+  };
   const handleBack = () => {
     navigate("/messages/type/all");
   };
