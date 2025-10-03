@@ -22,11 +22,14 @@ export const getMessagesApi = async (token, type = "all") => {
       };
     });
 };
-export const getMessagesByUserApi = async (token) => {
+export const getMessagesByUserApi = async (token, username) => {
   if (!token) return { success: false, message: "Ingen token tillgänglig" };
+  if (!username) return { success: false, message: "Användarnamn saknas" };
+
+  const url = `/api/messages/type/${username}`;
 
   try {
-    const response = await axios.get(`${baseURL}/api/messages/type/mine`, {
+    const response = await axios.get(`${baseURL}${url}`, {
       headers: {
         Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}`,
       },

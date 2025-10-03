@@ -6,9 +6,10 @@ import { errorHandler } from "../../../middlewares/errorHandler.mjs";
 import { formatCountMessage } from "../../../utils/formatCountMessage.mjs";
 import { authenticateUser } from "../../../middlewares/authenticateUser.mjs";
 import { authorizeRole } from "../../../middlewares/authorizeRole.mjs";
+import { throwError } from "../../../responses/throwError.mjs";
 
 export const handler = middy(async (event) => {
-  const type = event.pathParameters?.type; // "mine" eller "all"
+  const type = event.pathParameters?.type; // "username" eller "all"
   const user = event.user; // satt av authenticateUser-middleware
   const username = user.username;
   // const role = user.role;
@@ -19,13 +20,13 @@ export const handler = middy(async (event) => {
 
   let messages = [];
 
-  if (type === "mine") {
+  if (type === "all") {
     console.log("Fetching messages for user:", username);
-    messages = await getMessagesByUser(username);
-  } else if (type === "all") {
     messages = await getMessages();
   } else {
-    throwError(`Invalid type '${type}', must be 'mine' or 'all'`, 400);
+    console.log(`Hämtar meddelanden för användare: ${type}`);
+    messages = await getMessagesByUser(type);
+    //bättre htrowError
   }
 
   const count = messages?.length ?? 0;
@@ -33,10 +34,10 @@ export const handler = middy(async (event) => {
     success: true,
     message:
       count === 0
-        ? type === "mine"
-          ? "Du har inga meddelanden"
-          : "Inga meddelanden att visa"
-        : `${formatCountMessage(count, "message")} ${type === "mine" ? "för dig" : "i total"}`,
+        ? type === "all"
+          ? "Inga meddelanden att visa"
+          : `Användaren '${type}' har inga meddelanden`
+        : `${formatCountMessage(count, "message")} ${type === "all" ? "i total" : `från ${type}`}`,
     messages: messages.map(formatMessageResponse),
   });
 })
