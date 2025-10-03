@@ -6,6 +6,7 @@ import pageFlipSound from "../../assets/sounds/page-flip-sound.mp3";
 import { SortGroup } from "../SortGroup/SortGroup";
 import { useAudio } from "../../hooks/useAudio";
 import { useUserStore } from "../../stores/useUserStore";
+import { sortMessagesArray } from "../../utils/sortMessagesArray";
 
 export const MessageSwitch = ({
   view,
@@ -40,31 +41,8 @@ export const MessageSwitch = ({
   const handleSortToggle = (newSortValue) => {
     onToggle(newSortValue); // uppdaterar sortOrder i MessagesPage
     if (newSortValue && setMessages) {
-      sortMessages(newSortValue);
+      setMessages((prev) => sortMessagesArray(prev, newSortValue));
     }
-  };
-
-  const sortMessages = (option) => {
-    if (!setMessages) return;
-
-    setMessages((prev) => {
-      const sorted = [...prev];
-      switch (option) {
-        case "date_asc":
-          sorted.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-          break;
-        case "date_desc":
-          sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          break;
-        case "sender_asc":
-          sorted.sort((a, b) => a.username.localeCompare(b.username));
-          break;
-        case "sender_desc":
-          sorted.sort((a, b) => b.username.localeCompare(a.username));
-          break;
-      }
-      return sorted;
-    });
   };
 
   return (

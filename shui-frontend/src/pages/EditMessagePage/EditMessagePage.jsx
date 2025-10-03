@@ -1,7 +1,6 @@
 import "./editMessagePage.css";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { postMessageApi, updateMessageByIdApi, getMessageByIdApi } from "../../api/messages";
 import { useUserStore } from "../../stores/useUserStore";
 import { useAudio } from "../../hooks/useAudio";
 import { MessageView } from "../../components/MessageView/MessageView";
@@ -10,6 +9,8 @@ import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 import { Header } from "../../components/Header/Header";
 import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
 import writeSound from "../../assets/sounds/write.mp3";
+import { fetchMessageById } from "../../utils/fetchMessageById";
+import { saveMessage } from "../../utils/saveMessage";
 
 export const EditMessagePage = () => {
   const params = useParams();
@@ -38,7 +39,9 @@ export const EditMessagePage = () => {
     const fetchMessage = async () => {
       if (isEdit && !existingMessage && params.messageId) {
         setLoading(true);
-        const result = await getMessageByIdApi(params.messageId, token);
+
+        const result = await fetchMessageById(params.messageId, token);
+
         if (result.success) {
           setExistingMessage(result.data);
           setMode("edit");
@@ -57,16 +60,9 @@ export const EditMessagePage = () => {
     if (!newText) return;
 
     try {
-      let result;
-      let redirectUrl;
+      const result = await saveMessage({ mode, messageId: existingMessage?.messageId, token, text: newText });
 
-      if (mode === "edit" && existingMessage?.messageId) {
-        result = await updateMessageByIdApi(existingMessage.messageId, token, newText);
-        redirectUrl = `/messages/id/${existingMessage.messageId}`;
-      } else {
-        result = await postMessageApi(token, newText);
-        redirectUrl = `/messages/type/${user?.username?.toLowerCase()}`;
-      }
+      const redirectUrl = mode === "edit" ? `/messages/id/${existingMessage.messageId}` : `/messages/type/${user?.username?.toLowerCase()}`;
 
       if (result.success) {
         playWrite(() => {
