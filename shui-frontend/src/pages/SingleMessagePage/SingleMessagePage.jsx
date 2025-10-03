@@ -6,8 +6,6 @@ import { useUserStore } from "../../stores/useUserStore";
 import { MessageView } from "../../components/MessageView/MessageView";
 import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
-import { Logo } from "../../components/logo/Logo";
-import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import crumpleSound from "../../assets/sounds/crumple-paper.mp3";
 import trashSound from "../../assets/sounds/paper-bin-toss.mp3";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
@@ -158,8 +156,6 @@ export const SingleMessagePage = () => {
           onAuthorClick={handleAuthorClick}
         />
       )}
-
-      {/* <LogoutButton /> */}
     </Layout>
   );
 };

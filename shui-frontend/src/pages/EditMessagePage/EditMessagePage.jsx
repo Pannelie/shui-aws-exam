@@ -4,12 +4,11 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { postMessageApi, updateMessageByIdApi, getMessageByIdApi } from "../../api/messages";
 import { useUserStore } from "../../stores/useUserStore";
-import { Logo } from "../../components/logo/Logo";
-import { LogoutButton } from "../../components/LogoutButton/LogoutButton";
 import { Layout } from "../../components/Layout/Layout";
 import writeSound from "../../assets/sounds/write.mp3";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 import { useAudio } from "../../hooks/useAudio";
+import { Header } from "../../components/Header/Header";
 
 export const EditMessagePage = () => {
   const params = useParams();
@@ -87,8 +86,7 @@ export const EditMessagePage = () => {
 
   return (
     <Layout>
-      <Logo />
-      <LogoutButton />
+      <Header showSwitch={false} />
       {loading && <InfoMessage text="laddar..." className="info--normal" />}
       {error && <InfoMessage text={error} className="info--error" />}
       <MessageView
