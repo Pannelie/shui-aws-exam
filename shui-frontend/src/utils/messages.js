@@ -16,6 +16,6 @@ export const sortMessages = (messages, sortOrder) => {
 };
 
 export const filterMessagesByUser = (messages, username) => {
-  if (!username) return messages;
-  return messages.filter((msg) => msg.username === username);
+  if (!username) return messages; // inga filter, returnera allt
+  return messages.filter((msg) => msg.username.toLowerCase() === username.toLowerCase());
 };

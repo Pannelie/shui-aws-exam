@@ -22,7 +22,7 @@ export const MessagesPage = () => {
 
   const [view, setView] = useState(type || "all");
   const [activeUserFilter, setActiveUserFilter] = useState(null);
-  const [sortOrder, setSortOrder] = useState("date_asc"); // test för sortering
+  const [sortOrder, setSortOrder] = useState(null); // test för sortering
   // const [activeSort, setActiveSort] = useState(null); // t.ex. "date_desc", "sender_asc"
 
   const [messages, setMessages] = useState([]);
@@ -41,6 +41,10 @@ export const MessagesPage = () => {
     if (type) setView(type);
   }, [type]);
 
+  useEffect(() => {
+    setSortOrder(null);
+  }, [view]);
+
   // useEffect(() => {
   //   const parts = pathname.split("/");
   //   const type = parts[parts.length - 1]; // "all" eller username
@@ -48,12 +52,11 @@ export const MessagesPage = () => {
   // }, [pathname, setView]);
 
   useEffect(() => {
-    const parts = pathname.split("/");
-    const typeFromPath = parts[parts.length - 1]; // "all" eller username
-    setView(typeFromPath.toLowerCase());
+    const typeFromPath = pathname.split("/").pop().toLowerCase();
+    setView(typeFromPath);
 
     // ⚡ Bara aktivera filter om det är någon annan användare än dig själv
-    if (typeFromPath.toLowerCase() === user?.username?.toLowerCase()) {
+    if (typeFromPath === "all" || typeFromPath === user?.username?.toLowerCase()) {
       setActiveUserFilter(null);
     } else {
       setActiveUserFilter(typeFromPath);
@@ -66,16 +69,19 @@ export const MessagesPage = () => {
     const fetchMessages = async () => {
       setLoading(true);
       setError("");
-      const result = await fetchMessagesUtil({ view, token, user });
+
+      let usernameForFetch = view;
+      if (view === "mine" || view === user?.username?.toLowerCase()) {
+        usernameForFetch = user?.username; // hämta riktiga användarnamnet
+      }
+      console.log("Fetching messages for:", view, token);
+      const result = await fetchMessagesUtil({ username: usernameForFetch, token });
 
       if (result.status === 404) {
-        setError(`Användaren "${view}" hittades inte`);
+        setError(`Användaren "${usernameForFetch}" hittades inte`);
         setMessages([]);
-        setLoading(false);
         return;
-      }
-
-      if (!result.success) {
+      } else if (!result.success) {
         if (result.message === "Invalid token") {
           setUser(null);
           localStorage.removeItem("token");
@@ -94,22 +100,29 @@ export const MessagesPage = () => {
     fetchMessages();
   }, [view, token, navigate, user]);
 
-  useEffect(() => {
-    if (activeUserFilter) {
-      // När du filtrerar på en annan användare, nollställ sortOrder
-      setSortOrder(null);
-    }
-  }, [activeUserFilter]);
+  // useEffect(() => {
+  //   if (activeUserFilter) {
+  //     // När du filtrerar på en annan användare, nollställ sortOrder
+  //     setSortOrder(null);
+  //   }
+  // }, [activeUserFilter]);
 
   // useEffect(() => {
   //   navigate(`/messages/type/${view}`, { replace: true });
   // }, [view, navigate]);
 
-  // useEffect(() => {
-  //   if (location.state?.userFilter) {
-  //     setActiveUserFilter(location.state.userFilter);
-  //   }
-  // }, [location.state?.userFilter]);
+  useEffect(() => {
+    if (location.state?.userFilter) {
+      setActiveUserFilter(location.state.userFilter);
+    } else {
+      const typeFromPath = pathname.split("/").pop();
+      if (typeFromPath.toLowerCase() === "all" || typeFromPath.toLowerCase() === user?.username?.toLowerCase()) {
+        setActiveUserFilter(null);
+      } else {
+        setActiveUserFilter(typeFromPath); // eller typeFromPath exakt som på API:t
+      }
+    }
+  }, [pathname, location.state?.userFilter, user]);
   return (
     <Layout>
       <Header

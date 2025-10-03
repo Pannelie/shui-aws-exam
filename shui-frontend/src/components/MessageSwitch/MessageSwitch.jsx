@@ -33,8 +33,9 @@ export const MessageSwitch = ({
 
     //klickar jag på att se mina egna messages
     // så nollställs sorteringen för att visa annan användares messages
-    onClearUserFilter?.();
     onToggle?.(null);
+    setActiveUserFilter(newView === user?.username?.toLowerCase() || newView === "all" ? null : newView);
+
     setTimeout(() => setSwitching(false), 300); // matcha animationstid
   };
 
@@ -61,22 +62,24 @@ export const MessageSwitch = ({
       <div className="sort-button-container">
         <SortGroup arialabel="Datum" type="date" activeSort={activeSort} onToggle={handleSortToggle} />
         <SortGroup arialabel="Avsändare" type="sender" activeSort={activeSort} onToggle={handleSortToggle} />
-        {activeUserFilter && (
-          <SortGroup
-            arialabel="Avsändare"
-            type="user"
-            activeSort={null}
-            activeUserFilter={activeUserFilter}
-            onToggle={(val) => {
-              if (!val) {
-                onClearUserFilter();
-                setView("all");
-              } else {
-                setActiveUserFilter("user"); // aktivera röd styling direkt
-              }
-            }}
-          />
-        )}
+
+        <SortGroup
+          arialabel="Avsändare"
+          type="user"
+          activeSort={null}
+          activeUserFilter={activeUserFilter}
+          onToggle={(val) => {
+            if (!val) {
+              onClearUserFilter();
+              setView("all");
+              onToggle(null);
+            } else {
+              setActiveUserFilter(val); // <-- aktivera röd styling direkt
+              setView(val); // <-- uppdaterar view så rätt meddelanden hämtas
+              onToggle(null);
+            }
+          }}
+        />
       </div>
     </div>
   );

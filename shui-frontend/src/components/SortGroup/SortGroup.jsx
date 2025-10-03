@@ -6,6 +6,9 @@ export const SortGroup = ({ label, type, activeSort, onToggle, activeUserFilter 
   const isActive = isUserFilter
     ? !!activeUserFilter // är något aktivt
     : activeSort === `${type}_asc` || activeSort === `${type}_desc`;
+
+  if (isUserFilter && !isActive) return null;
+
   const ascending = activeSort === `${type}_asc` || !isActive;
 
   const handleClick = () => {
