@@ -85,10 +85,9 @@ export const EditMessagePage = () => {
   const handleEdit = () => setMode("edit");
 
   return (
-    <Layout>
+    <Layout className="page--less-gap">
       <Header showSwitch={false} />
       {loading && <InfoMessage text="laddar..." className="info--normal" />}
-      {error && <InfoMessage text={error} className="info--error" />}
       <MessageView
         mode={mode}
         initialText={existingMessage?.text || ""}
@@ -97,6 +96,7 @@ export const EditMessagePage = () => {
         onEdit={existingMessage ? handleEdit : undefined}
         author={existingMessage?.username}
       />
+      {error && <InfoMessage text={error} className="info--error" />}
     </Layout>
   );
 };
