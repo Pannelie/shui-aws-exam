@@ -48,7 +48,6 @@ export const MessagesPage = () => {
     const typeFromPath = pathname.split("/").pop().toLowerCase();
     setView(typeFromPath);
 
-    // ⚡ Bara aktivera filter om det är någon annan användare än dig själv
     if (typeFromPath === "all" || typeFromPath === user?.username?.toLowerCase()) {
       setActiveUserFilter(null);
     } else {

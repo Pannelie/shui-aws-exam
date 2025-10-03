@@ -8,28 +8,34 @@ export const useAudio = (src, options = {}) => {
   const { startTime = 0 } = options;
   const audioRef = useRef(null);
 
+  // Skapa audio när src finns
   useEffect(() => {
+    if (!src) return;
     const audio = new Audio(src);
-    audio.preload = "audio"; //förladdar mitt ljud
+    audio.preload = "auto";
     audioRef.current = audio;
   }, [src]);
 
   const play = (callback) => {
-    if (!audioRef.current) {
+    const audio = audioRef.current;
+    if (!audio) {
       callback?.();
       return;
     }
-    const audio = audioRef.current;
+
+    // Direkt start från startTime
     audio.currentTime = startTime;
+    audio.onended = () => callback?.();
 
-    audio.onended = () => {
-      callback?.();
-    };
-
-    audio.play().catch((error) => {
-      console.warn("Ljudet kunde inte spelas: ", error);
-      callback?.();
-    });
+    // spela ljud
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((error) => {
+        console.warn("Ljudet kunde inte spelas: ", error);
+        callback?.();
+      });
+    }
   };
+
   return [audioRef, play];
 };

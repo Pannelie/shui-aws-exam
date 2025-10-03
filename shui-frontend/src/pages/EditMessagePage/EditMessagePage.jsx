@@ -9,7 +9,6 @@ import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 import { Header } from "../../components/Header/Header";
 import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
 import writeSound from "../../assets/sounds/write.mp3";
-import { fetchMessageById } from "../../utils/fetchMessageById";
 import { saveMessage } from "../../utils/saveMessage";
 import { getToken } from "../../utils/getToken";
 import { useFetchMessage } from "../../hooks/useFetchMessage";
