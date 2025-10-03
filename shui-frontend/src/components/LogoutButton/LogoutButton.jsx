@@ -14,6 +14,7 @@ export const LogoutButton = () => {
 
     // Nollställ användaren i store
     setUser(null);
+    console.log("successfully logged out");
 
     // Navigera till startsidan
     navigate("/login", { replace: true });

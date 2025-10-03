@@ -19,7 +19,7 @@ export const Header = ({
     <section className={`header ${showSwitch ? "header--full" : "header--compact"}`}>
       <Logo />
       <div className="header__top">
-        <p className="header__user">{user.username}</p>
+        <p className="header__user">{user?.username}</p>
         <LogoutButton />
       </div>
       {showSwitch && view && setView && (

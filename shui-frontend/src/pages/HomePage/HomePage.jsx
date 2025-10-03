@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "../../stores/useUserStore";
 import boat from "../../assets/vectors/top.png";
 import { OceanImage } from "../../components/OceanImage/oceanImage";
+import { getToken } from "../../utils/getToken";
 
 export const HomePage = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
 
-  const token = user?.token || localStorage.getItem("token");
+  const token = getToken();
   const storedRole = user?.role || localStorage.getItem("role");
 
   const [showFinal, setShowFinal] = useState(false);
