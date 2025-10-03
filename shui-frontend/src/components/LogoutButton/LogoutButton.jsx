@@ -16,7 +16,7 @@ export const LogoutButton = () => {
     setUser(null);
 
     // Navigera till startsidan
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
   };
   return (
     <>
