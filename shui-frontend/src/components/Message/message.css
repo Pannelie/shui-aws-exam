@@ -103,14 +103,14 @@
 }
 
 .message__form-error {
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  right: 0;
-  top: -40%;
-  width: 120px;
+  right: 1rem;
+  top: 2rem;
+  width: 110px;
   font-size: 0.7rem;
   font-family: var(--font-fun);
   padding: 1rem 0.5rem 0.5rem;
