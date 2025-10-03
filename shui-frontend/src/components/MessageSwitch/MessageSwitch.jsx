@@ -44,6 +44,9 @@ export const MessageSwitch = ({
     setSwitching(true);
     setView(newView);
 
+    //klickar jag på att se mina egna messages
+    // så nollställs sorteringen för att visa annan användares messages
+    onClearUserFilter?.();
     setTimeout(() => setSwitching(false), 300); // matcha animationstid
   };
   // Hantera sortering
