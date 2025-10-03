@@ -99,6 +99,7 @@
   border: none;
   font-size: 1.5rem;
   width: 70%;
+  white-space: pre-line; /* Gör att \n blir radbrytning */
 }
 
 .message__form-error {
@@ -109,7 +110,7 @@
   border: none;
   right: 0;
   top: -40%;
-  width: 100px;
+  width: 120px;
   font-size: 0.7rem;
   font-family: var(--font-fun);
   padding: 1rem 0.5rem 0.5rem;
