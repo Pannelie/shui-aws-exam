@@ -23,7 +23,6 @@ export const MessagesPage = () => {
   const [view, setView] = useState(type || "all");
   const [activeUserFilter, setActiveUserFilter] = useState(null);
   const [sortOrder, setSortOrder] = useState(null); // test för sortering
-  // const [activeSort, setActiveSort] = useState(null); // t.ex. "date_desc", "sender_asc"
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,17 +44,10 @@ export const MessagesPage = () => {
     setSortOrder(null);
   }, [view]);
 
-  // useEffect(() => {
-  //   const parts = pathname.split("/");
-  //   const type = parts[parts.length - 1]; // "all" eller username
-  //   setView(type);
-  // }, [pathname, setView]);
-
   useEffect(() => {
     const typeFromPath = pathname.split("/").pop().toLowerCase();
     setView(typeFromPath);
 
-    // ⚡ Bara aktivera filter om det är någon annan användare än dig själv
     if (typeFromPath === "all" || typeFromPath === user?.username?.toLowerCase()) {
       setActiveUserFilter(null);
     } else {
@@ -99,17 +91,6 @@ export const MessagesPage = () => {
 
     fetchMessages();
   }, [view, token, navigate, user]);
-
-  // useEffect(() => {
-  //   if (activeUserFilter) {
-  //     // När du filtrerar på en annan användare, nollställ sortOrder
-  //     setSortOrder(null);
-  //   }
-  // }, [activeUserFilter]);
-
-  // useEffect(() => {
-  //   navigate(`/messages/type/${view}`, { replace: true });
-  // }, [view, navigate]);
 
   useEffect(() => {
     if (location.state?.userFilter) {

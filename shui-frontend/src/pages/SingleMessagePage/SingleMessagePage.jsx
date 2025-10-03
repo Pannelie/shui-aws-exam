@@ -32,8 +32,6 @@ export const SingleMessagePage = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteFeedback, setDeleteFeedback] = useState(false);
 
-  // const [message, setMessage] = useState(state?.message || null);
-
   const { message, loading, error } = useFetchMessage({
     messageId,
     token,
