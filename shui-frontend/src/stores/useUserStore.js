@@ -10,7 +10,7 @@ export const useUserStore = create(
     }),
     {
       name: "user-storage", // Nyckeln som används i localStorage
-      getStorage: () => localStorage, // Vi använder localStorage
+      getStorage: () => localStorage, // localStorage
     }
   )
 );

@@ -6,7 +6,8 @@ import { useUserStore } from "../../stores/useUserStore";
 import { Message } from "../Message/Message";
 import "./loginForm.css";
 
-// useRef är som en låda där du kan spara något mellan renderingar utan att React bryr sig om det.
+// useRef är som en låda där du kan spara något mellan renderingar
+// utan att React bryr sig om det.
 
 export const LoginForm = () => {
   const usernameRef = useRef();

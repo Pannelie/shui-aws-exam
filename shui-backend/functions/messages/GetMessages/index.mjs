@@ -10,9 +10,8 @@ import { throwError } from "../../../responses/throwError.mjs";
 
 export const handler = middy(async (event) => {
   const type = event.pathParameters?.type; // "username" eller "all"
-  const user = event.user; // satt av authenticateUser-middleware
+  const user = event.user;
   const username = user.username;
-  // const role = user.role;
 
   console.log("det här är inuti GetMessages");
 
@@ -26,7 +25,10 @@ export const handler = middy(async (event) => {
   } else {
     console.log(`Hämtar meddelanden för användare: ${type}`);
     messages = await getMessagesByUser(type);
-    //bättre htrowError
+    if (messages === null) {
+      // Om användaren inte existerar i databasen
+      throwError(`Användaren '${type}' finns inte`, 404);
+    }
   }
 
   const count = messages?.length ?? 0;

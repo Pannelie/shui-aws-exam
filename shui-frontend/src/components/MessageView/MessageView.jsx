@@ -3,7 +3,6 @@ import { Message } from "../Message/Message";
 import { Button } from "../Button/Button";
 import { useEffect, useState } from "react";
 
-//lägg till onDelete,
 export const MessageView = ({
   mode = "view",
   initialText = "",

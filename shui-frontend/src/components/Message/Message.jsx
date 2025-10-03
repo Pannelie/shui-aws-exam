@@ -1,15 +1,10 @@
-import "./message.css"; // CSS för lappar och pins
+import "./message.css";
 
 export const Message = ({ text, mode = "view", onChange, className = "", rotation = 0, maxPreviewLength = 35, author, date, truncate }) => {
-  //  const pinColor = ["#ff4d4d", "#e60000", "#ff1a1a"];
-  //lägga till olika färger?
-  // lägg isf till fill: ${pinColor} under style för pin
-
   const truncateText = (str, maxLength) => {
     return str.length > maxLength ? str.slice(0, maxLength) + "…" : str;
   };
 
-  // Endast visa förkortad text i "view"-mode
   const displayText = truncate ? truncateText(text, maxPreviewLength) : text;
   return (
     <div
@@ -26,7 +21,7 @@ export const Message = ({ text, mode = "view", onChange, className = "", rotatio
           transform: `translateX(-50%)`,
         }}
       >
-        {/* Bara ett cirkulärt huvud */}
+        {/* ---------------PIN----------- */}
         <circle cx="12" cy="12" r="8" fill="var(--main-red-color)" />
       </svg>
       <div className="message__content">

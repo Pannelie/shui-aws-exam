@@ -1,10 +1,9 @@
 import "./messageSwitch.css";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import pageFlipSound from "../../assets/sounds/page-flip-sound.mp3";
 import { SortGroup } from "../SortGroup/SortGroup";
-import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
 import { useAudio } from "../../hooks/useAudio";
 import { useUserStore } from "../../stores/useUserStore";
 
@@ -24,9 +23,6 @@ export const MessageSwitch = ({
 
   const { user } = useUserStore();
 
-  //onödig token??
-  const token = localStorage.getItem("token");
-
   const handleClick = (newView) => {
     if (newView === view) return;
 
@@ -40,17 +36,6 @@ export const MessageSwitch = ({
     onClearUserFilter?.();
     setTimeout(() => setSwitching(false), 300); // matcha animationstid
   };
-  // Hantera sortering
-  // const handleSortToggle = () => {
-  //   let newSort;
-  //   if (sortOption === "date_desc") newSort = "date_asc";
-  //   else if (sortOption === "date_asc") newSort = "sender_asc";
-  //   else if (sortOption === "sender_asc") newSort = "sender_desc";
-  //   else newSort = "date_desc"; // loopar
-
-  //   setSortOption(newSort);
-  //   sortMessages(newSort);
-  // };
 
   const handleSortToggle = (newSortValue) => {
     onToggle(newSortValue); // uppdaterar sortOrder i MessagesPage

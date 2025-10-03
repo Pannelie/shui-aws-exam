@@ -14,7 +14,6 @@ export const handler = middy(async (event) => {
   console.log("Checking if user exists with username:", userData.username);
 
   const response = await addUser(userData);
-  //response=== true om lyckat
 
   if (!response.success) {
     const status = response.message === "User already exists" ? 400 : 500;

@@ -27,17 +27,6 @@
   animation: wave 3s ease-in-out infinite alternate;
 }
 
-.ocean-image--back {
-  z-index: 1;
-  bottom: 50px;
-  animation: wave 3s ease-in-out infinite alternate;
-}
-.ocean-image--front {
-  z-index: 3;
-  bottom: 0;
-  animation: wave 4s ease-in-out infinite alternate;
-}
-
 .boat {
   z-index: 2;
   position: absolute;
@@ -96,15 +85,6 @@
 
 .app-subtitle--visible {
   opacity: 1;
-}
-/*---------- Våganimation för blå havet-----------*/
-@keyframes wave {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-10px);
-  }
 }
 
 /* ------------------Båt guppar lite i havet -------------*/

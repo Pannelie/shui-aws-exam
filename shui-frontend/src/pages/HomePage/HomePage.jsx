@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../../stores/useUserStore";
 import boat from "../../assets/vectors/top.png";
-import ocean from "../../assets/vectors/BottomImage.png";
+import { OceanImage } from "../../components/OceanImage/oceanImage";
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -35,12 +35,11 @@ export const HomePage = () => {
   return (
     <div className="ocean-container">
       <div className="ocean-blue"></div>
-      <img src={ocean} alt="ocean-image" className="ocean-image ocean-image--back" />
+      <OceanImage className="ocean-image--back" />
       <div className={`boat ${showFinal ? "boat-final" : ""}`}>
         <img src={boat} alt="S-båt" className="boat-image" />
       </div>
-      <img src={ocean} alt="ocean-image" className="ocean-image ocean-image--front" />
-
+      <OceanImage className="ocean-image--front" />
       <h1 className={`app-title ${showFinal ? "app-title--visible" : ""}`}>Shui</h1>
       <h2 className={`app-subtitle ${showFinal ? "app-subtitle--visible" : ""}`}>din personliga anslagstavla</h2>
     </div>

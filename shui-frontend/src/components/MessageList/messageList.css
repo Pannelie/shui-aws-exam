@@ -1,6 +1,6 @@
 .message__list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* två kolumner */
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.8rem;
   justify-content: center;
   padding: 0;
@@ -8,23 +8,9 @@
 
 .message__list-item {
   width: 100%;
-  aspect-ratio: 1; /* kvadratiska lappar */
+  aspect-ratio: 1;
   list-style: none;
 }
-
-/* .message__list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  /* min 150px, max 1fr → fyller raden jämnt */
-/*gap: 1.5rem;
-  justify-content: center; /* centrerar grid om raden inte är full */
-/*list-style: none;
-  margin: 1rem;
-}
-
-.message__list-item {
-  width: 100%;
-  aspect-ratio: 1; /* kvadratiska lappar } */
 
 .message__no-messages {
   text-align: center;
