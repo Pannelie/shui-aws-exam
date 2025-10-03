@@ -75,7 +75,7 @@ export const SingleMessagePage = () => {
   };
   // ----------------------------TEST---------------------
   const handleAuthorClick = () => {
-    navigate("/messages/type/all", {
+    navigate(`/messages/type/${message.username}`, {
       state: {
         userFilter: message.username,
       },
@@ -91,22 +91,6 @@ export const SingleMessagePage = () => {
     const messageElement = document.querySelector(".message--large");
     if (messageElement) messageElement.classList.add("message--delete-animation");
 
-    // Spela crumple-ljud
-    // if (crumpleRef.current) {
-    //   crumpleRef.current.currentTime = 0;
-    //   crumpleRef.current.play().catch(() => {});
-    //   crumpleRef.current.onended = () => {
-    // När crumple är klart, spela trash-ljud
-    // if (trashRef.current) {
-    //   trashRef.current.currentTime = 0;
-    //   trashRef.current.play().catch(() => {});
-    // }
-    //   };
-    // }
-
-    // Vänta animationstid innan API-call
-    // const totalAnimationDuration = 900; // matcha din CSS-animationstid i ms
-    // setTimeout(() => {
     playCrumple(() => {
       // När crumple är klart, starta trash-ljud
       if (trashRef.current) {
@@ -119,7 +103,11 @@ export const SingleMessagePage = () => {
         deleteMessageByIdApi(messageId, token).then((result) => {
           if (result.success) {
             // Navigation efter feedback-tid
-            setTimeout(() => navigate("/messages/type/mine"), 1400);
+            setTimeout(() => {
+              navigate(`/messages/type/${user.username}`, {
+                state: { userFilter: user.username }, // ⚡ sätt filter
+              });
+            }, 1400);
           } else {
             setError(result.message);
           }
@@ -136,8 +124,7 @@ export const SingleMessagePage = () => {
       <Header showSwitch={false} />
       <audio ref={crumpleRef} src={crumpleSound} preload="auto" />
       <audio ref={trashRef} src={trashSound} preload="auto" />
-      {/* <Logo /> */}
-      {loading && <InfoMessage text="laddar..." className="info--normal" />}
+      {loading && <LoadingIcon />}
       {deleteFeedback && (
         <div className="delete-feedback">
           <p>Ditt meddelande togs bort</p>

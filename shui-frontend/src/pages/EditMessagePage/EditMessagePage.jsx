@@ -9,6 +9,7 @@ import writeSound from "../../assets/sounds/write.mp3";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 import { useAudio } from "../../hooks/useAudio";
 import { Header } from "../../components/Header/Header";
+import LoadingIcon from "../../components/LoadingIcon/LoadingIcon";
 
 export const EditMessagePage = () => {
   const params = useParams();
@@ -64,7 +65,7 @@ export const EditMessagePage = () => {
         redirectUrl = `/messages/id/${existingMessage.messageId}`;
       } else {
         result = await postMessageApi(token, newText);
-        redirectUrl = "/messages/type/mine";
+        redirectUrl = `/messages/type/${user?.username?.toLowerCase()}`;
       }
 
       if (result.success) {
@@ -87,7 +88,7 @@ export const EditMessagePage = () => {
   return (
     <Layout className="page--less-gap">
       <Header showSwitch={false} />
-      {loading && <InfoMessage text="laddar..." className="info--normal" />}
+      {loading && <LoadingIcon />}
       <MessageView
         mode={mode}
         initialText={existingMessage?.text || ""}

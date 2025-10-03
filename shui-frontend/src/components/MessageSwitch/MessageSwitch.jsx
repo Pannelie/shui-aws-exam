@@ -6,6 +6,7 @@ import pageFlipSound from "../../assets/sounds/page-flip-sound.mp3";
 import { SortGroup } from "../SortGroup/SortGroup";
 import { getMessagesApi, getMessagesByUserApi } from "../../api/messages";
 import { useAudio } from "../../hooks/useAudio";
+import { useUserStore } from "../../stores/useUserStore";
 
 export const MessageSwitch = ({
   view,
@@ -20,6 +21,8 @@ export const MessageSwitch = ({
   const [switching, setSwitching] = useState(false);
 
   const [pageFlipRef, playPageFlip] = useAudio(pageFlipSound);
+
+  const { user } = useUserStore();
 
   //onödig token??
   const token = localStorage.getItem("token");
@@ -82,11 +85,11 @@ export const MessageSwitch = ({
   return (
     <div className="segment-container">
       <div className="segment-paper">
-        <div className={`slider ${view === "mine" ? "right" : "left"} ${switching ? "switching" : ""}`}></div>
+        <div className={`slider ${view === user?.username?.toLowerCase() ? "right" : "left"} ${switching ? "switching" : ""}`}></div>
         <button className="segment-btn" onClick={() => handleClick("all")}>
           <FontAwesomeIcon icon={faUsers} className="user-icon" />
         </button>
-        <button className="segment-btn" onClick={() => handleClick("mine")}>
+        <button className="segment-btn" onClick={() => handleClick(user?.username?.toLowerCase())}>
           <FontAwesomeIcon icon={faUser} className="user-icon" />
         </button>
       </div>
@@ -100,8 +103,12 @@ export const MessageSwitch = ({
             activeSort={activeSort}
             activeUserFilter={activeUserFilter}
             onToggle={(val) => {
-              if (!val) onClearUserFilter();
-              else setActiveUserFilter("user"); // aktivera röd styling direkt
+              if (!val) {
+                onClearUserFilter();
+                setView("all");
+              } else {
+                setActiveUserFilter("user"); // aktivera röd styling direkt
+              }
             }}
           />
         )}

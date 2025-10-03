@@ -23,13 +23,15 @@ export const getMessages = async () => {
 };
 
 export const getMessagesByUser = async (username) => {
+  if (!username) return []; // här säkrar vi så att undefined inte kraschar
+  const usernameLower = username.toLowerCase();
   console.log("Querying messages for username:", username);
   const command = new QueryCommand({
     TableName: "shui-table",
     IndexName: "GSI1",
     KeyConditionExpression: "GSI1PK = :username",
     ExpressionAttributeValues: {
-      ":username": `USER#${username}`,
+      ":username": `USER#${usernameLower}`,
     },
     ScanIndexForward: true,
   });
@@ -43,26 +45,6 @@ export const getMessagesByUser = async (username) => {
     throwError("Could not fetch messages for user", 500);
   }
 };
-
-// export const getMessagesByUser = async (username) => {
-//   try {
-//     const command = new QueryCommand({
-//       TableName: "shui-table",
-//       IndexName: "GSI1",
-//       KeyConditionExpression: "GSI1PK= :username",
-//       ExpressionAttributeValues: {
-//         ":username": `USER#${username}`,
-//       },
-//       ScanIndexForward: true, // true innebär äldsta först
-//     });
-
-//     const result = await docClient.send(command);
-//     return result.Items || [];
-//   } catch (error) {
-//     console.error(`Error fetching messages for user ${username}:`, error.message);
-//     throwError("Could not fetch messages for user", 500);
-//   }
-// };
 
 export const getMessageById = async (messageId) => {
   if (!messageId) throwError("Missing messageId", 400);
@@ -92,6 +74,7 @@ export const getMessageById = async (messageId) => {
 };
 
 export const addMessage = async ({ username, text }) => {
+  const usernameLower = username.toLowerCase();
   const messageId = generateId();
   const nowStockholm = DateTime.now().setZone("Europe/Stockholm");
   const createdAt = nowStockholm.toISO(); // ISO-sträng med svensk tid
@@ -104,7 +87,7 @@ export const addMessage = async ({ username, text }) => {
     text,
     createdAt,
     // För GSI1: hämta alla meddelanden från användare
-    GSI1PK: `USER#${username}`,
+    GSI1PK: `USER#${usernameLower}`,
     GSI1SK: `CREATED_AT#${createdAt}`,
 
     // För GSI2: hämta ett specifikt meddelande via ID

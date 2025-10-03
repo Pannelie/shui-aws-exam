@@ -1,0 +1,7 @@
+.loading-icon {
+  color: var(--light-font-color);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateY(50%) translateX(-50%);
+}

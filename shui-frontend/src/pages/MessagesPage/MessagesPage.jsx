@@ -8,6 +8,7 @@ import { WriteButton } from "../../components/WriteButton/WriteButton";
 import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
+import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
@@ -63,10 +64,20 @@ export const MessagesPage = () => {
         let result;
         if (view === "all") {
           result = await getMessagesApi(token);
+          console.log("All messages result:", result); // 🔹 logga all data
         } else {
-          result = await getMessagesByUserApi(token);
-          console.log(result);
+          const username = view === "mine" ? user?.username?.toLowerCase() : view?.toLowerCase();
+
+          result = await getMessagesByUserApi(token, username);
         }
+
+        if (result.status === 404) {
+          setError(`Användaren "${view}" hittades inte`);
+          setMessages([]);
+          setLoading(false);
+          return;
+        }
+
         if (!result.success) {
           if (result.message === "Invalid token") {
             setUser(null);
@@ -88,7 +99,7 @@ export const MessagesPage = () => {
     };
 
     fetchMessages();
-  }, [view, token, navigate, setUser]);
+  }, [view, token, navigate, user]);
 
   useEffect(() => {
     navigate(`/messages/type/${view}`, { replace: true });
@@ -112,7 +123,7 @@ export const MessagesPage = () => {
       />
       <main className="main">
         <div className="message__list-container">
-          {loading && <InfoMessage text="laddar meddelanden..." className="info--normal" />}
+          {loading && <LoadingIcon />}
           {error && <InfoMessage text={error} className="info--error" />}
           {!loading && !error && <MessageList messages={filteredMessages} activeUserFilter={activeUserFilter} />}
         </div>
