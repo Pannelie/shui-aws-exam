@@ -9,8 +9,6 @@ export const SortGroup = ({ label, type, activeSort, onToggle, activeUserFilter 
   const ascending = activeSort === `${type}_asc` || !isActive;
 
   const handleClick = () => {
-    let newSortValue;
-
     if (isUserFilter) {
       onToggle(activeUserFilter ? null : "user");
     } else {
@@ -18,8 +16,6 @@ export const SortGroup = ({ label, type, activeSort, onToggle, activeUserFilter 
       else if (ascending) onToggle(`${type}_desc`);
       else onToggle(null);
     }
-
-    onToggle(newSortValue); // skickar sorteringsvärdet tillbaka till MessageSwitch
   };
 
   const getIcon = () => {
