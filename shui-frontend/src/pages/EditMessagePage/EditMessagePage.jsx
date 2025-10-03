@@ -11,6 +11,8 @@ import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
 import writeSound from "../../assets/sounds/write.mp3";
 import { fetchMessageById } from "../../utils/fetchMessageById";
 import { saveMessage } from "../../utils/saveMessage";
+import { getToken } from "../../utils/getToken";
+import { useFetchMessage } from "../../hooks/useFetchMessage";
 
 export const EditMessagePage = () => {
   const params = useParams();
@@ -26,34 +28,28 @@ export const EditMessagePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const token = user?.token || localStorage.getItem("token");
+  const token = getToken();
 
   const isEdit = !!params.messageId || mode === "edit";
 
   console.log(`this is mode: ${mode}`);
   console.log(`this is isEdit: ${isEdit}`);
 
+  const {
+    message: fetchedMessage,
+    loading: loadingMessage,
+    error: fetchError,
+  } = useFetchMessage({
+    messageId: isEdit ? params.messageId : null,
+    token,
+  });
+
   useEffect(() => {
-    if (!token) return;
-
-    const fetchMessage = async () => {
-      if (isEdit && !existingMessage && params.messageId) {
-        setLoading(true);
-
-        const result = await fetchMessageById(params.messageId, token);
-
-        if (result.success) {
-          setExistingMessage(result.data);
-          setMode("edit");
-        } else {
-          console.error("Kunde inte hämta meddelande:", result.message);
-          setError(result.message);
-        }
-        setLoading(false);
-      }
-    };
-    fetchMessage();
-  }, [isEdit, existingMessage, params.messageId, token]);
+    if (fetchedMessage && !existingMessage) {
+      setExistingMessage(fetchedMessage);
+      setMode("edit");
+    }
+  }, [fetchedMessage, existingMessage]);
 
   const handleSave = async (newText) => {
     console.log("handleSave called!", newText);
@@ -84,7 +80,8 @@ export const EditMessagePage = () => {
   return (
     <Layout className="page--less-gap">
       <Header showSwitch={false} />
-      {loading && <LoadingIcon />}
+      {loading || loadingMessage ? <LoadingIcon /> : null}
+
       <MessageView
         mode={mode}
         initialText={existingMessage?.text || ""}
@@ -93,7 +90,7 @@ export const EditMessagePage = () => {
         onEdit={existingMessage ? handleEdit : undefined}
         author={existingMessage?.username}
       />
-      {error && <InfoMessage text={error} className="info--error" />}
+      {(error || fetchError) && <InfoMessage text={error || fetchError} className="info--error" />}
     </Layout>
   );
 };

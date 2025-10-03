@@ -10,6 +10,8 @@ import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
 import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
 import { filterMessagesByUser, sortMessages } from "../../utils/messages";
 import { fetchMessagesUtil } from "../../utils/fetchMessagesUtil";
+import { getToken } from "../../utils/getToken";
+import { useAuthRedirect } from "../../hooks/useAuthRedirect";
 
 export const MessagesPage = () => {
   const { user, setUser } = useUserStore();
@@ -26,17 +28,13 @@ export const MessagesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const token = user?.token || localStorage.getItem("token");
+  const token = getToken();
 
   const sortedMessage = sortMessages(messages, sortOrder);
 
   const filteredMessages = filterMessagesByUser(sortedMessage, activeUserFilter);
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/login", { replace: true });
-    }
-  }, [token, navigate]);
+  useAuthRedirect(token);
 
   useEffect(() => {
     if (type) setView(type);

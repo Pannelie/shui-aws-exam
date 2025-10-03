@@ -34,10 +34,12 @@ export const LoginForm = () => {
     if (result.success) {
       const { token, role } = result.data;
       console.log(`token: ${token}`);
+      const username = usernameRef.current.value;
       setUser({ token, role: role.toUpperCase(), username: usernameRef.current.value });
 
       localStorage.setItem("token", token);
       localStorage.setItem("role", role.toUpperCase());
+      console.log(`Successfully logged in ${username}`);
 
       navigate("/messages/type/all", {
         state: { message: "Du är nu inloggad" },

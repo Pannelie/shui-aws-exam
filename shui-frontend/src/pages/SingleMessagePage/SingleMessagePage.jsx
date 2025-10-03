@@ -7,19 +7,24 @@ import { MessageView } from "../../components/MessageView/MessageView";
 import { Layout } from "../../components/Layout/Layout";
 import { Header } from "../../components/Header/Header";
 import { InfoMessage } from "../../components/InfoMessage/InfoMessage";
+import { getToken } from "../../utils/getToken";
 import { useAudio } from "../../hooks/useAudio";
+import { useAuthRedirect } from "../../hooks/useAuthRedirect";
+import { useFetchMessage } from "../../hooks/useFetchMessage";
 import { LoadingIcon } from "../../components/LoadingIcon/LoadingIcon";
 import crumpleSound from "../../assets/sounds/crumple-paper.mp3";
 import trashSound from "../../assets/sounds/paper-bin-toss.mp3";
 
 export const SingleMessagePage = () => {
   const { messageId } = useParams();
+  const { user } = useUserStore();
+  const token = getToken();
+
+  useAuthRedirect(token);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-
-  const { user } = useUserStore();
-  const token = user?.token || localStorage.getItem("token");
 
   const [crumpleRef, playCrumple] = useAudio(crumpleSound);
   const [trashRef, playTrash] = useAudio(trashSound);
@@ -27,33 +32,15 @@ export const SingleMessagePage = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteFeedback, setDeleteFeedback] = useState(false);
 
-  const [message, setMessage] = useState(state?.message || null);
-  const [loading, setLoading] = useState(!state?.message);
-  const [error, setError] = useState("");
+  // const [message, setMessage] = useState(state?.message || null);
+
+  const { message, loading, error } = useFetchMessage({
+    messageId,
+    token,
+    initialMessage: state?.message,
+  });
 
   const isOwner = message && user?.username === message.username;
-
-  useEffect(() => {
-    if (!token) {
-      navigate("/login", { replace: true });
-    }
-  }, [token, navigate]);
-
-  useEffect(() => {
-    if (!message && messageId) {
-      setLoading(true);
-      getMessageByIdApi(messageId, token)
-        .then((result) => {
-          if (result.success) {
-            setMessage(result.data);
-          } else {
-            setError(result.message);
-          }
-        })
-        .finally(() => setLoading(false));
-    }
-  }, [messageId, message, token, user?.username]);
-
   useEffect(() => {
     if (!loading && !message) {
       navigate("/messages/type/all", { replace: true });
