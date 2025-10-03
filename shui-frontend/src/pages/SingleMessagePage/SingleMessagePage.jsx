@@ -132,13 +132,12 @@ export const SingleMessagePage = () => {
   };
 
   return (
-    <Layout>
+    <Layout className="page--less-gap">
       <Header showSwitch={false} />
       <audio ref={crumpleRef} src={crumpleSound} preload="auto" />
       <audio ref={trashRef} src={trashSound} preload="auto" />
       {/* <Logo /> */}
       {loading && <InfoMessage text="laddar..." className="info--normal" />}
-      {error && <InfoMessage text={error} className="info--error" />}
       {deleteFeedback && (
         <div className="delete-feedback">
           <p>Ditt meddelande togs bort</p>
@@ -156,6 +155,7 @@ export const SingleMessagePage = () => {
           onAuthorClick={handleAuthorClick}
         />
       )}
+      {error && <InfoMessage text={error} className="info--error" />}
     </Layout>
   );
 };
