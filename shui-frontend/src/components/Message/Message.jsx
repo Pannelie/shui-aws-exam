@@ -1,11 +1,8 @@
 import "./message.css";
+import { truncateSmart } from "../../utils/truncate";
 
 export const Message = ({ text, mode = "view", onChange, className = "", rotation = 0, maxPreviewLength = 35, author, date, truncate }) => {
-  const truncateText = (str, maxLength) => {
-    return str.length > maxLength ? str.slice(0, maxLength) + "…" : str;
-  };
-
-  const displayText = truncate ? truncateText(text, maxPreviewLength) : text;
+  const displayText = truncate ? truncateSmart(text, maxPreviewLength) : text;
   return (
     <div
       className={["message", className].filter(Boolean).join(" ")}
