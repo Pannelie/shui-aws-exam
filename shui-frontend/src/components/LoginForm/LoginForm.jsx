@@ -18,7 +18,6 @@ export const LoginForm = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Förifyll med gästdata
     if (usernameRef.current && passwordRef.current) {
       usernameRef.current.value = "guest";
       passwordRef.current.value = "Guest1";
