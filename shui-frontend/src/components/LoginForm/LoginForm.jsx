@@ -18,6 +18,13 @@ export const LoginForm = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (usernameRef.current && passwordRef.current) {
+      usernameRef.current.value = "guest";
+      passwordRef.current.value = "Guest1";
+    }
+  }, []);
+
+  useEffect(() => {
     const storedRole = localStorage.getItem("role");
     if (user?.role === "USER" || storedRole === "USER") {
       navigate("/messages/type/all", { replace: true });
@@ -77,10 +84,10 @@ export const LoginForm = () => {
     <form className="form">
       <h1 className="form__title">Logga in</h1>
       <label className="form__label">
-        <input className="form__input" type="text" ref={usernameRef} placeholder="Användarnamn" />
+        <input className="form__input" type="text" ref={usernameRef} placeholder="guest" />
       </label>
       <label className="form__label">
-        <input className="form__input" type="password" ref={passwordRef} placeholder="Lösenord" />
+        <input className="form__input" type="password" ref={passwordRef} placeholder="Guest1" />
       </label>
       <Button className="form__button" onClick={loginUser} text={"Logga in"} />
       {error && <Message text={error} className="message--highlight message__form-error" />}
